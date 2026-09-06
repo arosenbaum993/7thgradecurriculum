@@ -2,6 +2,7 @@
 """Render 7th_Grade_ELA_Curriculum_Map.md into two HTML pages.
 
   7th_Grade_ELA_Curriculum_Map.html        tile overview; each tile slides open a unit panel
+  index.html                               identical copy so GitHub Pages serves the map at the root
   7th_Grade_ELA_Curriculum_Map_Print.html  the full document in reading order, for printing
 
 Usage: python3 tools/build_map_html.py
@@ -16,6 +17,7 @@ import markdown
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "7th_Grade_ELA_Curriculum_Map.md"
 OUT_TILES = ROOT / "7th_Grade_ELA_Curriculum_Map.html"
+OUT_INDEX = ROOT / "index.html"  # same page; lets GitHub Pages serve the map at the site root
 OUT_PRINT = ROOT / "7th_Grade_ELA_Curriculum_Map_Print.html"
 
 FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -437,6 +439,8 @@ if __name__ == "__main__":
     body, toks = render_markdown()
     pre, secs = split_sections(body)
     OUT_PRINT.write_text(build_print(pre, toks, body), encoding="utf-8")
-    OUT_TILES.write_text(build_tiles(pre, secs), encoding="utf-8")
-    for p in (OUT_TILES, OUT_PRINT):
+    tiles = build_tiles(pre, secs)
+    OUT_TILES.write_text(tiles, encoding="utf-8")
+    OUT_INDEX.write_text(tiles, encoding="utf-8")
+    for p in (OUT_TILES, OUT_INDEX, OUT_PRINT):
         print(f"wrote {p.name} ({p.stat().st_size:,} bytes)")
