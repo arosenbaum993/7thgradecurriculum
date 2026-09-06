@@ -7,46 +7,31 @@
   --bg:#F5F7F4; --surface:#FFFFFF; --ink:#1B2420; --muted:#5B6963; --line:#D6DDD8;
   --accent:#1B6B60; --accent-ink:#FFFFFF; --accent-soft:#DDEEE9; --accent-line:#9CCBC0;
   --gold:#9E7118; --gold-soft:#F4E9CF; --head-bg:#EAF1EE; --code-bg:#E7F0ED;
-  --shadow:0 1px 0 rgba(27,36,32,.06);
+  --scrim:rgba(20,30,27,.42); --shadow:0 1px 0 rgba(27,36,32,.06);
+  --tile-sat:34%; --tile-l:36%; --soft-sat:40%; --soft-l:93%;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#121917; --surface:#18221F; --ink:#E6ECE8; --muted:#A3B1AA; --line:#2B3833;
     --accent:#6FC7B5; --accent-ink:#0F1A17; --accent-soft:#173A34; --accent-line:#2F6B60;
     --gold:#D9AE4F; --gold-soft:#3A2E12; --head-bg:#1E2B27; --code-bg:#1D302B;
-    --shadow:none;
+    --scrim:rgba(0,0,0,.55); --shadow:none;
+    --tile-sat:38%; --tile-l:70%; --soft-sat:26%; --soft-l:17%;
   }
 }
 :root[data-theme="dark"]{
   --bg:#121917; --surface:#18221F; --ink:#E6ECE8; --muted:#A3B1AA; --line:#2B3833;
   --accent:#6FC7B5; --accent-ink:#0F1A17; --accent-soft:#173A34; --accent-line:#2F6B60;
   --gold:#D9AE4F; --gold-soft:#3A2E12; --head-bg:#1E2B27; --code-bg:#1D302B;
-  --shadow:none;
+  --scrim:rgba(0,0,0,.55); --shadow:none;
+  --tile-sat:38%; --tile-l:70%; --soft-sat:26%; --soft-l:17%;
 }
+
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
-.page{display:grid;grid-template-columns:248px minmax(0,1fr);gap:0;max-width:1240px;margin:0 auto;padding:0 24px}
-.index{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;padding:36px 20px 36px 0;border-right:1px solid var(--line);font-size:13.5px}
-.index .eyebrow{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
-.index ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
-.index li a{display:block;padding:5px 10px;border-radius:4px;color:var(--ink);text-decoration:none;line-height:1.3}
-.index li a:hover{background:var(--accent-soft)}
-.index li a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-main{padding:36px 0 96px 40px;min-width:0}
-main > *{max-width:78ch}
-main > .table-wrap{max-width:none}
 h1,h2,h3,h4{font-family:"Newsreader","Iowan Old Style",Georgia,"Times New Roman",serif;font-weight:500;text-wrap:balance;letter-spacing:-.005em;line-height:1.15}
-h1{font-size:2.6rem;margin:0 0 10px;font-weight:500}
-h1 + p{font-size:.9rem;color:var(--muted);margin:0 0 18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
-h1 + p strong{color:var(--ink);font-weight:600}
-h2{font-size:1.75rem;margin:56px 0 14px;padding-top:22px;border-top:2px solid var(--accent-line)}
-.meta strong{display:inline-block;font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-weight:500;font-size:12.5px;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:3px}
-h3{font-family:"Public Sans",system-ui,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:30px 0 8px}
 p{margin:0 0 14px}
 p strong{font-weight:650}
-hr{border:0;height:0;margin:0}
 a{color:var(--accent)}
 code{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.82em;background:var(--code-bg);color:var(--ink);padding:1px 5px;border-radius:3px;white-space:nowrap}
 ul,ol{margin:0 0 16px;padding-left:22px}
@@ -62,68 +47,955 @@ tbody tr:last-child td{border-bottom:0}
 td:first-child{font-weight:550}
 table.matrix td:not(:first-child),table.matrix th:not(:first-child){text-align:center;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;width:48px}
 table.matrix td:first-child{font-weight:450}
-.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
-@media (max-width: 900px){
-  .page{grid-template-columns:1fr;padding:0 16px}
-  .index{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:24px 0 16px}
-  .index ol{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-  main{padding:24px 0 72px}
-  h1{font-size:2rem}
-  h2{font-size:1.5rem}
+.meta strong{display:inline-block;font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-weight:500;font-size:12.5px;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:3px}
+
+body{overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:40px 28px 80px}
+.mast{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;margin-bottom:28px}
+.mast h1{font-size:2.4rem;margin:0 0 8px}
+.mast .sub{color:var(--muted);margin:0;max-width:64ch}
+.mast .print{font-size:13px;color:var(--muted);text-decoration:none;border:1px solid var(--line);padding:8px 12px;border-radius:4px;white-space:nowrap}
+.mast .print:hover{border-color:var(--accent);color:var(--accent)}
+.eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+
+/* Year strip: 180 days, segments proportional to unit length */
+.strip{margin:0 0 34px}
+.strip .bar{display:flex;gap:3px;height:44px}
+.strip .seg{flex:var(--days);--tile:hsl(var(--h) var(--tile-sat) var(--tile-l));--soft:hsl(var(--h) var(--soft-sat) var(--soft-l));background:var(--soft);border:0;border-radius:4px;border-bottom:3px solid var(--tile);color:var(--ink);font:inherit;font-size:12.5px;cursor:pointer;padding:0 8px;text-align:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;transition:transform .18s ease,box-shadow .18s ease}
+.strip .seg b{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500;margin-right:6px;color:var(--tile)}
+.strip .seg:hover,.strip .seg:focus-visible{transform:translateY(-2px);outline:2px solid var(--tile);outline-offset:1px}
+.strip .seg.eog{border-bottom-color:var(--gold);--tile:var(--gold);--soft:var(--gold-soft)}
+.strip .ticks{position:relative;height:18px;margin-top:6px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--muted)}
+.strip .ticks span{position:absolute;top:0;transform:translateX(-50%)}
+.strip .ticks span:first-child{transform:none}
+.strip .ticks span:last-child{transform:translateX(-100%)}
+
+/* Tiles */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:40px}
+.tile{--tile:hsl(var(--h) var(--tile-sat) var(--tile-l));--soft:hsl(var(--h) var(--soft-sat) var(--soft-l));display:flex;flex-direction:column;gap:8px;min-height:190px;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--tile);border-radius:6px;padding:16px 18px 14px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.tile:hover,.tile:focus-visible{transform:translateY(-3px);box-shadow:0 10px 24px -14px rgba(20,30,27,.45);border-color:var(--tile);outline:none}
+.tile:focus-visible{outline:2px solid var(--tile);outline-offset:2px}
+.tile .num{font-family:"Newsreader",Georgia,serif;font-size:2.1rem;line-height:1;color:var(--tile);font-weight:500}
+.tile .num.small{font-size:1.35rem;padding-top:6px}
+.tile .chip{white-space:nowrap;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.03em;color:var(--tile);background:var(--soft);padding:3px 8px;border-radius:3px;align-self:flex-start}
+.tile .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.tile h2{font-size:1.15rem;margin:0;line-height:1.2}
+.tile .mode{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tile .sum{font-size:13.5px;color:var(--muted);margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tile .open{margin-top:auto;font-size:12.5px;color:var(--tile);font-weight:600}
+.tile .open::after{content:" \2192"}
+
+.refs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.ref{display:flex;flex-direction:column;gap:4px;text-align:left;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:5px;padding:12px 14px;cursor:pointer;transition:border-color .18s ease,background .18s ease}
+.ref:hover,.ref:focus-visible{border-color:var(--accent);background:var(--accent-soft);outline:none}
+.ref:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ref b{font-weight:600;font-size:14px}
+.ref span{font-size:12.5px;color:var(--muted)}
+
+/* Drawer */
+.scrim{position:fixed;inset:0;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity .28s ease;z-index:40}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100dvh;width:min(820px,94vw);background:var(--bg);border-left:1px solid var(--line);box-shadow:-24px 0 48px -32px rgba(0,0,0,.5);transform:translateX(104%);transition:transform .32s cubic-bezier(.2,.7,.2,1);z-index:50;display:flex;flex-direction:column;--tile:var(--accent);--soft:var(--accent-soft)}
+.drawer.on{transform:none}
+.drawer-head{display:flex;align-items:flex-start;gap:14px;padding:22px 26px 16px;border-bottom:1px solid var(--line);border-top:5px solid var(--tile);background:var(--surface)}
+.drawer-head .chip{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.03em;color:var(--tile);background:var(--soft);padding:3px 8px;border-radius:3px;display:inline-block;margin-bottom:8px}
+.drawer-head h2{font-size:1.5rem;margin:0}
+.drawer-head .grow{flex:1;min-width:0}
+.close{font:inherit;font-size:13px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:4px;padding:7px 11px;cursor:pointer}
+.close:hover,.close:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+.drawer-body{flex:1;overflow-y:auto;padding:22px 26px 32px}
+.drawer-body > *{max-width:74ch}
+.drawer-body > .table-wrap,.drawer-body > details{max-width:none}
+.drawer-body h3{font-family:"Public Sans",system-ui,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:26px 0 8px}
+.drawer-body .meta{display:none}
+details.grp{border:1px solid var(--line);border-radius:5px;background:var(--surface);margin:0 0 10px}
+details.grp summary{cursor:pointer;list-style:none;padding:12px 16px;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:10px}
+details.grp summary::-webkit-details-marker{display:none}
+details.grp summary::before{content:"";width:8px;height:8px;border-right:2px solid var(--tile);border-bottom:2px solid var(--tile);transform:rotate(-45deg);transition:transform .2s ease;flex:none}
+details.grp[open] summary::before{transform:rotate(45deg)}
+details.grp summary:focus-visible{outline:2px solid var(--tile);outline-offset:-2px;border-radius:5px}
+details.grp .inner{padding:2px 16px 12px;border-top:1px solid var(--line)}
+details.grp .inner > *{max-width:74ch}
+details.grp .inner > .table-wrap{max-width:none;border:0;border-radius:0;box-shadow:none;background:transparent;margin:8px 0 14px}
+.drawer-nav{display:flex;justify-content:space-between;gap:10px;padding:12px 26px;border-top:1px solid var(--line);background:var(--surface)}
+.drawer-nav button{font:inherit;font-size:13px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:4px;padding:8px 12px;cursor:pointer;max-width:48%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drawer-nav button:hover,.drawer-nav button:focus-visible{border-color:var(--tile);color:var(--tile);outline:none}
+.drawer-nav button:disabled{opacity:.35;cursor:default}
+body.locked{overflow:hidden}
+@media (prefers-reduced-motion: reduce){
+  .drawer,.scrim,.tile,.strip .seg{transition:none}
 }
-@media print{
-  body{background:#fff;color:#000;font-size:11pt}
-  .page{display:block;max-width:none;padding:0}
-  .index{display:none}
-  main{padding:0}
-  main > *{max-width:none}
-  h2{break-before:page;border-top:0;margin-top:0;padding-top:0}
-  h1 + h2, h2:first-of-type{break-before:auto}
-  .table-wrap{border:0;box-shadow:none;overflow:visible}
-  table{font-size:9.5pt}
-  tr,td,th{break-inside:avoid}
-  .watch{border-left:3px solid #9E7118;background:#fff}
-  code{background:#eee}
-  a{color:inherit;text-decoration:none}
+@media (max-width: 640px){
+  .wrap{padding:24px 16px 60px}
+  .mast{grid-template-columns:1fr}
+  .mast h1{font-size:1.9rem}
+  .strip .seg{font-size:0;padding:0}
+  .strip .seg b{font-size:12px;margin:0 6px}
+  .drawer{width:100vw}
+  .drawer-head,.drawer-body,.drawer-nav{padding-left:16px;padding-right:16px}
 }
 </style>
-<div class="page">
-<nav class="index" aria-label="Sections">
-<p class="eyebrow">Sections</p>
-<ol>
-<li><a href="#1-how-to-use-this-map">How to use this map</a></li>
-<li><a href="#2-year-at-a-glance">Year at a glance</a></li>
-<li><a href="#3-the-georgia-milestones-writing-target">The Georgia Milestones writing target</a></li>
-<li><a href="#4-year-long-routines-the-writing-spine">Year-long routines: the writing spine</a></li>
-<li><a href="#5-assessment-calendar">Assessment calendar</a></li>
-<li><a href="#6-unit-1-launch-a-community-of-writers-and-readers">Unit 1 · Launch: A Community of Writers and Readers</a></li>
-<li><a href="#7-unit-2-narrative-craft-myths-retellings-and-the-tools-of-story">Unit 2 · Narrative Craft: Myths, Retellings, and the Tools of Story</a></li>
-<li><a href="#8-unit-3-expository-writing-from-sources">Unit 3 · Expository Writing from Sources</a></li>
-<li><a href="#9-unit-4-research-credibility-and-multimodal-presentation">Unit 4 · Research, Credibility, and Multimodal Presentation</a></li>
-<li><a href="#10-unit-5-argumentative-writing-from-sources">Unit 5 · Argumentative Writing from Sources</a></li>
-<li><a href="#11-unit-6-literary-analysis-and-poetry-theme-time-and-craft">Unit 6 · Literary Analysis and Poetry: Theme, Time, and Craft</a></li>
-<li><a href="#12-unit-7-milestones-writing-intensive">Unit 7 · Milestones Writing Intensive</a></li>
-<li><a href="#13-weeks-34-to-36-eog-window-and-capstone">Weeks 34 to 36 · EOG window and Capstone</a></li>
-<li><a href="#14-standards-coverage-matrix">Standards coverage matrix</a></li>
-<li><a href="#15-grade-7-gum-placement">Grade 7 GUM placement</a></li>
-<li><a href="#16-unit-plan-checklist-the-three-lenses">Unit plan checklist: the three lenses</a></li>
-<li><a href="#17-direct-notes-for-the-teacher">Direct notes for the teacher</a></li>
-</ol>
-</nav>
-<main>
-<h1 id="grade-7-ela-curriculum-map-a-writing-centered-year">Grade 7 ELA Curriculum Map: A Writing-Centered Year</h1>
-<p><strong>McIntosh County School System</strong> | Georgia's K-12 ELA Standards (approved May 2023) | Georgia Milestones Grade 7 ELA Achievement Level Descriptors (draft, effective 2025-2026)</p>
-<p>Built for a 7th grade ELA teacher whose instructional emphasis is writing. Every unit is driven by a writing standard and a summative writing task. Reading standards ride alongside as mentor and source texts, which is how the 2023 standards are built: every Texts standard has an Interpreting side and a Constructing side, and the Constructing side is the writing.</p>
-<hr />
-<h2 id="1-how-to-use-this-map">1. How to use this map</h2>
-<p><strong>What this document does.</strong> It fixes the sequence, the priority standards, the summative task, and the success-criteria ladder for each unit. A unit plan (Stage 1, 2, 3) gets built from the unit's section here. Stage 1 copies the unit's priority standards. Stage 2 builds the summative named here first, then the formatives that mirror it. Stage 3 fills in the weekly arc.</p>
+<div class="wrap">
+<header class="mast">
+<div>
+<p class="eyebrow">McIntosh County · Georgia's 2023 ELA Standards · Grade 7 Milestones ALDs</p>
+<h1>Grade 7 ELA Writing Map</h1>
+<p class="sub">A writing-centered year in eight blocks. Open a tile for that unit's standards, success-criteria ladder, assessments, mentor texts, and weekly arc. The reference tiles below hold the Milestones target, the routines, and the coverage tables.</p>
+</div>
+<a class="print" href="7th_Grade_ELA_Curriculum_Map.pdf">Print edition (PDF)</a>
+</header>
+
+<section class="strip" aria-label="Year at a glance">
+<p class="eyebrow">The year, 180 days, drawn to scale</p>
+<div class="bar"><button class="seg" style="--h:168;--days:15" data-open="unit-1" title="Unit 1. Launch: A Community of Writers and Readers"><b>1</b>Launch</button><button class="seg" style="--h:22;--days:30" data-open="unit-2" title="Unit 2. Narrative Craft: Myths, Retellings, and the Tools of Story"><b>2</b>Narrative Craft</button><button class="seg" style="--h:205;--days:25" data-open="unit-3" title="Unit 3. Expository Writing from Sources"><b>3</b>Expository Writing from Sources</button><button class="seg" style="--h:95;--days:20" data-open="unit-4" title="Unit 4. Research, Credibility, and Multimodal Presentation"><b>4</b>Research, Credibility, and Multimodal Presentation</button><button class="seg" style="--h:350;--days:35" data-open="unit-5" title="Unit 5. Argumentative Writing from Sources"><b>5</b>Argumentative Writing from Sources</button><button class="seg" style="--h:275;--days:25" data-open="unit-6" title="Unit 6. Literary Analysis and Poetry: Theme, Time, and Craft"><b>6</b>Literary Analysis and Poetry</button><button class="seg" style="--h:40;--days:15" data-open="unit-7" title="Unit 7. Milestones Writing Intensive"><b>7</b>Milestones Writing Intensive</button><button class="seg eog" style="--h:300;--days:15" data-open="unit-eog" title="Weeks 34 to 36. EOG window and Capstone"><b>EOG</b>Capstone</button></div>
+<div class="ticks"><span>Aug · Q1</span><span style="left:25%">Q2</span><span style="left:50%">Q3</span><span style="left:75%">Q4</span><span style="left:100%">May</span></div>
+</section>
+
+<section aria-label="Units">
+<p class="eyebrow">Units</p>
+<div class="grid"><button class="tile" style="--h:168" data-open="unit-1" id="tile-unit-1">
+<div class="top"><span class="num">1</span><span class="chip">Weeks 1 to 3 · 15 days</span></div>
+<h2>Launch: A Community of Writers and Readers</h2>
+<span class="mode">Process, paragraph, on-demand baseline</span>
+<p class="sum">Baseline extended writing (Milestones format) plus writer&#x27;s launch reflection</p>
+<span class="open">Open unit</span>
+</button><button class="tile" style="--h:22" data-open="unit-2" id="tile-unit-2">
+<div class="top"><span class="num">2</span><span class="chip">Weeks 4 to 9 · 30 days</span></div>
+<h2>Narrative Craft: Myths, Retellings, and the Tools of Story</h2>
+<span class="mode">Narrative</span>
+<p class="sum">Modern retelling of a myth (process) plus timed narrative constructed response</p>
+<span class="open">Open unit</span>
+</button><button class="tile" style="--h:205" data-open="unit-3" id="tile-unit-3">
+<div class="top"><span class="num">3</span><span class="chip">Weeks 10 to 14 · 25 days</span></div>
+<h2>Expository Writing from Sources</h2>
+<span class="mode">Expository</span>
+<p class="sum">Extended expository essay from paired sources (Milestones format) plus field-guide article with text features</p>
+<span class="open">Open unit</span>
+</button><button class="tile" style="--h:95" data-open="unit-4" id="tile-unit-4">
+<div class="top"><span class="num">4</span><span class="chip">Weeks 15 to 18 · 20 days</span></div>
+<h2>Research, Credibility, and Multimodal Presentation</h2>
+<span class="mode">Research report, multimodal</span>
+<p class="sum">Short research report with citations and works cited plus multimodal presentation; semester benchmark</p>
+<span class="open">Open unit</span>
+</button><button class="tile" style="--h:350" data-open="unit-5" id="tile-unit-5">
+<div class="top"><span class="num">5</span><span class="chip">Weeks 19 to 25 · 35 days</span></div>
+<h2>Argumentative Writing from Sources</h2>
+<span class="mode">Argumentative</span>
+<p class="sum">Extended argumentative essay from paired sources (Milestones format) plus real-audience argument</p>
+<span class="open">Open unit</span>
+</button><button class="tile" style="--h:275" data-open="unit-6" id="tile-unit-6">
+<div class="top"><span class="num">6</span><span class="chip">Weeks 26 to 30 · 25 days</span></div>
+<h2>Literary Analysis and Poetry: Theme, Time, and Craft</h2>
+<span class="mode">Analytical, poetic</span>
+<p class="sum">Literary analysis essay comparing theme development plus poetry portfolio with writer&#x27;s note</p>
+<span class="open">Open unit</span>
+</button><button class="tile" style="--h:40" data-open="unit-7" id="tile-unit-7">
+<div class="top"><span class="num">7</span><span class="chip">Weeks 31 to 33 · 15 days</span></div>
+<h2>Milestones Writing Intensive</h2>
+<span class="mode">Mixed, on demand</span>
+<p class="sum">Full mock EOG with trait scores; trait-based small groups</p>
+<span class="open">Open unit</span>
+</button><button class="tile" style="--h:300" data-open="unit-eog" id="tile-unit-eog">
+<div class="top"><span class="num small">EOG</span><span class="chip">Weeks 34 to 36 · 15 days</span></div>
+<h2>EOG window and Capstone</h2>
+<span class="mode">Multimodal, reflective</span>
+<p class="sum">Capstone multimodal text plus portfolio reflection letter</p>
+<span class="open">Open unit</span>
+</button></div>
+</section>
+
+<section aria-label="Reference">
+<p class="eyebrow">Reference</p>
+<div class="refs"><button class="ref" data-open="ref-1" id="tile-ref-1"><b>How to use this map</b><span>Calendar assumptions, priority versus supporting standards, what to do if the year is underway</span></button><button class="ref" data-open="ref-2" id="tile-ref-2"><b>Year at a glance</b><span>Every unit in one table: weeks, mode, summative, Milestones connection, GUM focus</span></button><button class="ref" data-open="ref-3" id="tile-ref-3"><b>The Georgia Milestones writing target</b><span>What the ALDs say: the 3-trait rubric, section-level tasks, tested GUM skills, the DOK ladder</span></button><button class="ref" data-open="ref-4" id="tile-ref-4"><b>Year-long routines: the writing spine</b><span>The daily and weekly writing spine that runs through every unit</span></button><button class="ref" data-open="ref-5" id="tile-ref-5"><b>Assessment calendar</b><span>Every scored writing task in the year, week by week</span></button><button class="ref" data-open="ref-14" id="tile-ref-14"><b>Standards coverage matrix</b><span>Every grade 7 expectation and the unit that carries it</span></button><button class="ref" data-open="ref-15" id="tile-ref-15"><b>Grade 7 GUM placement</b><span>Each GUM skill with its code at grade 7, where it is taught, and whether it is tested</span></button><button class="ref" data-open="ref-16" id="tile-ref-16"><b>Unit plan checklist: the three lenses</b><span>What each unit plan needs under backward design, reading and writing, and rigor</span></button><button class="ref" data-open="ref-17" id="tile-ref-17"><b>Direct notes for the teacher</b><span>The short list that matters most</span></button></div>
+</section>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
+<div class="drawer-head"><div class="grow"><span class="chip" id="drawer-chip"></span><h2 id="drawer-title"></h2></div><button class="close" id="close" type="button">Close</button></div>
+<div class="drawer-body" id="drawer-body"></div>
+<div class="drawer-nav"><button id="prev" type="button">←</button><button id="next" type="button">→</button></div>
+</aside>
+<template id="panel-unit-1" data-title="Unit 1. Launch: A Community of Writers and Readers" data-chip="Weeks 1 to 3 · 15 days" data-hue="168" data-kind="unit"><p class="meta"><strong>Weeks 1 to 3 | 15 days | Quarter 1</strong></p>
+<p><strong>Unit questions.</strong> What do writers actually do? Who am I as a writer, and what do I need this year?</p>
+<p><strong>Enduring understanding.</strong> Writing is a series of decisions, and purpose and audience drive every one of them. A writer who can name the decision can revise it.</p>
+<p class="watch"><strong>Watch-outs.</strong> Do not spend three weeks on procedures. A real piece of writing comes out by day 7. The baseline has to be in Milestones format or it tells you nothing usable about trait scores. Score the baseline yourself with the 3-trait rubric; the trait pattern across the class sets the emphasis for Units 3 and 5.</p><details class="grp" open><summary>Standards</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Role</th>
+<th>Standard</th>
+<th>In plain terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Priority</td>
+<td><code>K-12.P.EICC.1</code> (a, b, e, f)</td>
+<td>Reader and writer identity: goals, preferences, community norms, independence</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>K-12.P.EICC.4</code> (a to h)</td>
+<td>Writing process: purpose and audience, plan, generate, draft, evaluate, revise, edit</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.SS.1.d</code></td>
+<td>Multi-paragraph text with an introduction that guides focus, support, and a conclusion (baseline)</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.L.GC.2.b</code></td>
+<td>Simple, compound, complex, compound-complex sentences; consistent verb tense</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.T.SS.2.c</code></td>
+<td>Formal versus informal style by situation</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>K-12.P.CP.1</code></td>
+<td>Collaboration norms</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.L.V.1.b</code></td>
+<td>Academic vocabulary in writing</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Language strand.</strong> Diagnostic on the Reinforce items (subject-verb agreement, pronoun-antecedent and indefinite pronoun agreement, commas after introductory elements, subordinating conjunctions, titles of works). Four sentence types. Fragments and run-ons. Demonstrative pronouns (<code>this</code>, <code>that</code>, <code>these</code>, <code>those</code> standing alone as pronouns, and the vague sentence-opening "This" that the Reinforce item on vague pronoun references targets). Roots: <code>graph</code>, <code>scrib/script</code>, <code>dict</code>, <code>voc</code>.</p>
+<p><strong>Learning targets (noun concepts).</strong> The writing process. Audience and purpose. Paragraph structure: focus, support, close. Sentence types. Writer identity and goals.</p></div></details><details class="grp"><summary>Success criteria ladder</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Surface (DOK 1 to 2)</th>
+<th>Deep (DOK 3)</th>
+<th>Transfer (DOK 3 to 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name the stages of the writing process and what each produces. Identify the audience and purpose of a mentor text. Classify sentences by type.</td>
+<td>Explain how a mentor writer's choices fit purpose and audience. Revise a paragraph so the focus, support, and close cohere. Combine sentences using all four types without changing meaning.</td>
+<td>Produce an on-demand text-based response with an introduction that guides the focus, support, and a conclusion. Set and justify personal writing goals from baseline trait scores.</td>
+</tr>
+</tbody>
+</table></div></div></details><details class="grp"><summary>Stage 2: evidence</summary><div class="inner"><ul>
+<li><strong>Summative.</strong> Baseline extended writing in Milestones format (one or two short sources, 45 minutes, argumentative or expository), scored on the 3-trait rubric. Plus a writer's launch piece (a short personal essay or letter about the student as a writer, taken through the full process). Plus the GUM diagnostic. The baseline is not graded punitively. It sets goals and groups.</li>
+<li><strong>Formative checkpoints that mirror the summative.</strong> A timed single-paragraph response to a short text in week 1. A paragraph revision task in week 2 (given a draft paragraph, fix focus, support, and close).</li>
+<li><strong>Independent rehearsals.</strong> The week 1 timed paragraph and the week 2 baseline itself.</li>
+<li><strong>Rubric shown.</strong> The 3-trait rubric introduced in week 2 with one strong and one weak sample scored as a class.</li>
+</ul></div></details><details class="grp"><summary>Mentor texts</summary><div class="inner"><p>Short pieces about writing and reading: an author interview or a short personal essay on why the author writes, a letter to a younger writer, a short anthology narrative used as a shared read. Keep them short. The text serves the writing.</p></div></details><details class="grp"><summary>Stage 3: weekly arc</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Week</th>
+<th>Focus</th>
+<th>Writing produced</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Norms (chalk talk protocol), notebooks, writer identity survey, sentence-type diagnostic, first shared text</td>
+<td>Quick writes; timed paragraph to a short text</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Paragraph anatomy; introduce the 3-trait rubric with samples; baseline extended writing; GUM diagnostic</td>
+<td>Baseline essay; paragraph revision task</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Revision and editing habits on the launch piece; peer response protocol (Praise, Question, Polish); author's chair; goal conferences from baseline</td>
+<td>Launch piece published; goals written</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Discussion protocols.</strong> Chalk talk for norms. Save the Last Word for the shared text. Author's chair.</p>
+<p><strong>Relevancy.</strong> Students already make writing decisions every day in texts and captions. The unit names what they already do and puts a rubric on it.</p></div></details></template><template id="panel-unit-2" data-title="Unit 2. Narrative Craft: Myths, Retellings, and the Tools of Story" data-chip="Weeks 4 to 9 · 30 days" data-hue="22" data-kind="unit"><p class="meta"><strong>Weeks 4 to 9 | 30 days | Quarter 1</strong></p>
+<p><strong>Unit questions.</strong> How do writers use narrative techniques to shape what a reader feels and understands? Why do modern writers keep retelling old stories, and what changes when they do?</p>
+<p><strong>Enduring understanding.</strong> Narrative techniques (sequencing, dialogue, description, pacing, flashback, foreshadowing) are choices that develop plot, character, and setting toward a purpose. Theme is built, not stated.</p>
+<p class="watch"><strong>Watch-outs.</strong> Narrative is where 7th grade writing time goes to die, and it is the least weighted writing on the EOG. Six weeks is the cap. Dialogue punctuation is the most common conventions error in narrative; front-load it. Do not let figurative language become simile hunting; the standard is effect on meaning, mood, and tone, and the success criteria say so.</p><details class="grp" open><summary>Standards</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Role</th>
+<th>Standard</th>
+<th>In plain terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.1.e</code></td>
+<td>Apply narrative techniques to enhance writing, engage audiences, achieve purposes</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.1.a</code>, <code>7.T.T.1.b</code></td>
+<td>Analyze how techniques develop plot, character, setting; analyze plot structure, conflict, narrative devices</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.1.c</code></td>
+<td>Compare and contrast how themes are developed across texts</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.PM.1.a</code></td>
+<td>Analyze myths and stories that modern writers adapted; identify features of style and theme</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.L.GC.2.b</code>, <code>7.L.GC.2.d</code></td>
+<td>Sentence variety with consistent verb tense; misplaced and dangling modifiers</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.SS.2.b</code></td>
+<td>Figurative language, literary devices, connotative language for intentional effect</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.T.SS.1.c</code></td>
+<td>Transitions of time and sequence</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.L.V.3.c</code>, <code>7.L.V.3.e</code></td>
+<td>Connotation in character and setting description</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>K-12.P.AC.1</code>, <code>K-12.P.AC.2</code>, <code>K-12.P.EICC.2.a</code></td>
+<td>Reading like a writer; writing like a reader; sharing real or imagined experiences</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Language strand.</strong> Dialogue punctuation with attributions (R): taught in week 5, not week 9. Verb tense consistency across a narrative. Participles and participial phrases as description (the verbals Introduce item) paired directly with misplaced and dangling modifiers, because the participial phrase is where the dangling modifier lives. Ellipses (C) for trailing dialogue. Vague pronoun references (R) in multi-character scenes. Hyphenated compound modifiers (C): "a well-worn path." Roots: <code>chron</code>, <code>path</code>, <code>bene/mal</code>, <code>morph</code>.</p>
+<p><strong>Learning targets.</strong> Narrative techniques. Plot structure and conflict. Theme development. Adaptation and retelling. Sentence variety and tense. Modifiers.</p></div></details><details class="grp"><summary>Success criteria ladder</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Surface (DOK 1 to 2)</th>
+<th>Deep (DOK 3)</th>
+<th>Transfer (DOK 3 to 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identify narrative techniques and plot stages in a story. Identify the myth a modern text adapts and one element it kept. Identify tense shifts and misplaced modifiers in a draft.</td>
+<td>Analyze how a technique develops character or setting in a section of text, with evidence. Describe how a theme is developed through events. Apply one technique (a line of dialogue, a descriptive detail) for a stated purpose. Revise a passage for tense consistency.</td>
+<td>Write a narrative that sequences plot (exposition, rising action, climax, resolution) and uses dialogue and description for purpose. Compare theme development across the myth and its retelling with textual evidence. Use a narrative technique inside a non-narrative piece.</td>
+</tr>
+</tbody>
+</table></div></div></details><details class="grp"><summary>Stage 2: evidence</summary><div class="inner"><ul>
+<li><strong>Summative.</strong> (1) Process piece: a modern retelling of a myth, or a narrative continuation from another character's point of view, two to four pages, full process, scored with a narrative rubric built from the <code>7.T.T.1</code> ALD Proficient bullets (clear sequence with climax and resolution, dialogue for purpose, descriptive details for purpose, consistent tense). (2) Timed narrative constructed response from a passage, 30 minutes: continue the scene or retell from another point of view using dialogue and description. (3) Theme comparison constructed response on the myth and the retelling.</li>
+<li><strong>Formative checkpoints that mirror the summative.</strong> Weekly "one scene, one technique" quick writes. Timed narrative CRs in weeks 6 and 8. Theme paragraph in week 7.</li>
+<li><strong>Independent rehearsals.</strong> The week 6 and week 8 timed CRs.</li>
+<li><strong>Rubric shown.</strong> Narrative rubric and an exemplar retelling in week 4; a weak sample scored in week 5.</li>
+</ul></div></details><details class="grp"><summary>Mentor and source texts</summary><div class="inner"><p>Use district-adopted anthology stories first. Options that carry the standards: "Seventh Grade" (Gary Soto), "Thank You, M'am" (Langston Hughes), "Rikki-Tikki-Tavi" (Rudyard Kipling), "The Third Wish" (Joan Aiken), "Amigo Brothers" (Piri Thomas). Myth and adaptation pairs for <code>7.T.PM.1.a</code>: "Daedalus and Icarus" with "Landscape with the Fall of Icarus" (William Carlos Williams) or a Percy Jackson excerpt; "Arachne" with a modern retelling; "Pandora"; "Echo and Narcissus." A myth collection (Hamilton or D'Aulaires excerpts) supplies the source myths.</p></div></details><details class="grp"><summary>Stage 3: weekly arc</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Week</th>
+<th>Focus</th>
+<th>Writing produced</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td>Plot structure and sequencing; conflict; reading a short story with a plot map backed by evidence; rubric and exemplar</td>
+<td>Quick writes; plot-map CR</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Characterization through dialogue and description; dialogue punctuation with attributions; Says/Does protocol on a mentor passage</td>
+<td>Dialogue scene; weekly CR on characterization</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Setting; figurative language for mood; participial phrases and modifiers; first timed narrative CR</td>
+<td>Setting paragraph; timed CR 1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Myths and retellings (<code>7.T.PM.1.a</code>); theme development compared across the pair; Socratic seminar</td>
+<td>Theme comparison CR</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Drafting the retelling; flashback and foreshadowing; pacing; second timed narrative CR</td>
+<td>Full draft; timed CR 2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Revision for tense, sentence variety, modifiers; peer response; publish; author's chair; portfolio reflection</td>
+<td>Final retelling; reflection</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Discussion protocols.</strong> Says/Does on mentor passages. Socratic seminar on the myth pairing. Praise, Question, Polish for peer response. Author's chair.</p>
+<p><strong>Relevancy.</strong> Marvel, Percy Jackson, and most of Disney are retellings. Students diagnose what a retelling changes and why, then do it themselves.</p></div></details></template><template id="panel-unit-3" data-title="Unit 3. Expository Writing from Sources" data-chip="Weeks 10 to 14 · 25 days" data-hue="205" data-kind="unit"><p class="meta"><strong>Weeks 10 to 14 | 25 days | Quarter 2</strong></p>
+<p><strong>Unit questions.</strong> How do writers turn information into understanding for a reader? How do two writers on the same topic end up with different texts?</p>
+<p><strong>Enduring understanding.</strong> Expository writers commit to a main idea, support it with facts, statistics, and key details, organize with a structure fit to purpose, and close with a sense of closure. Two authors on one topic emphasize different evidence, and a reader can see it.</p>
+<p class="watch"><strong>Watch-outs.</strong> The five-paragraph template produces a Trait 1 score of 2, not 3. The standard says "flexibly employing a variety of text structures." Teach structure as a choice. Students will copy from sources; teach paraphrase and the attribution move now, because Trait 2 rewards crediting sources and Unit 4 formalizes citation.</p><details class="grp" open><summary>Standards</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Role</th>
+<th>Standard</th>
+<th>In plain terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.2.d</code></td>
+<td>Apply expository techniques: main idea, facts, statistics, key details, text features, closure</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.2.a</code>, <code>7.T.T.2.b</code></td>
+<td>Analyze expository techniques; analyze how two authors on the same topic emphasize different evidence</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.SS.1.a</code>, <code>7.T.SS.1.b</code></td>
+<td>Analyze how authors modify structures; design texts with structures and features fit to purpose and audience</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.SS.1.c</code>, <code>7.T.SS.1.d</code></td>
+<td>Varied transitions across paragraphs; multi-paragraph text with introduction, support, conclusion</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.SS.2.c</code></td>
+<td>Formal style by situation</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.C.1.a</code>, <code>7.T.C.1.b</code></td>
+<td>Multiple purposes in a text; text mode features that aid comprehension</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.T.RA.2.a</code></td>
+<td>Record source information (author, title, site, year)</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.L.GC.2.c</code></td>
+<td>Active voice</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>K-12.P.AC.3</code></td>
+<td>Text design</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Language strand.</strong> Commas, parentheses, and dashes to set off nonessential elements: this is the grade 7 Master item, and the appositive is the entry point ("The Altamaha, the largest free-flowing river in Georgia, ..."). Semicolons in a series that contains commas (R). Colons to introduce lists and examples (I). Hyphens in compound words (C). Titles of works (R) when naming sources. Subordinating conjunctions for cause and effect (R). Roots: <code>struct</code>, <code>port</code>, <code>spec</code>, <code>form</code>.</p>
+<p><strong>Learning targets.</strong> Main idea and support. Text structures: compare and contrast, cause and effect, problem and solution, description, sequence. Transitions. Introductions and conclusions. Formal style. Text features.</p></div></details><details class="grp"><summary>Success criteria ladder</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Surface (DOK 1 to 2)</th>
+<th>Deep (DOK 3)</th>
+<th>Transfer (DOK 3 to 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identify a main idea and the facts that support it. Identify a text's structure and its signal words. Identify transitions. Classify sentences as formal or informal.</td>
+<td>Explain how two authors shape the same topic differently, with evidence from both. Apply expository techniques within a paragraph: topic sentence, fact or statistic, key detail, closure. Craft a complete introduction, or revise a conclusion, for a provided draft. Add varied transitions across two paragraphs.</td>
+<td>Write a multi-paragraph expository essay from two sources with a coherent structure chosen for the purpose, an introduction that guides the focus, supported body paragraphs, a conclusion, and consistent formal style. Design a text with features that serve the reader.</td>
+</tr>
+</tbody>
+</table></div></div></details><details class="grp"><summary>Stage 2: evidence</summary><div class="inner"><ul>
+<li><strong>Summative.</strong> Milestones-format extended expository essay from two paired informational texts, 90 minutes, on demand in week 14, scored on the 3-trait rubric. Plus an earlier process piece: a field-guide article with text features (headings, captions, a chart or sidebar) on a coastal Georgia topic (marsh ecosystems, the Altamaha, Sapelo Island and Hog Hammock, Darien's shrimping fleet), for <code>7.T.SS.1.b</code> and <code>K-12.P.AC.3</code>. Plus a paired-source selected-response and constructed-response set for <code>7.T.T.2.b</code>.</li>
+<li><strong>Formative checkpoints that mirror the summative.</strong> Weekly section-level tasks: introduction only, conclusion only, transitions across two given paragraphs, insert a statistic and elaborate. One full timed essay in week 12, scored and conferenced.</li>
+<li><strong>Independent rehearsals.</strong> The week 12 timed essay and the week 14 summative.</li>
+<li><strong>Rubric shown.</strong> 3-trait rubric with an expository exemplar and a weak sample in week 10.</li>
+</ul></div></details><details class="grp"><summary>Mentor and source texts</summary><div class="inner"><p>Paired informational texts from the anthology, CommonLit paired texts, Newsela text sets, and GaDOE released Milestones paired passages. Local sources: Georgia DNR coastal articles, Sapelo Island NERR materials. Two texts on one topic is the unit's reading shape, because <code>7.T.T.2.b</code> requires it and the extended writing task is built on it.</p></div></details><details class="grp"><summary>Stage 3: weekly arc</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Week</th>
+<th>Focus</th>
+<th>Writing produced</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>What expository writing does; main idea and support; annotate mentor texts for techniques; rubric and exemplar</td>
+<td>Weekly CR: paragraph applying expository techniques</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Text structures and transitions; write body paragraphs from a source; appositives and nonessential elements</td>
+<td>Two body paragraphs; transition task</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Introductions and conclusions; two authors on the same topic (<code>7.T.T.2.b</code>); fishbowl; first full timed essay</td>
+<td>Timed essay 1</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Field-guide article with text features; formal style; colons and semicolons; jigsaw of local sources</td>
+<td>Field-guide draft and revision</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Revise the timed essay against the rubric; conference; summative on-demand essay; portfolio reflection</td>
+<td>Summative essay; reflection</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Discussion protocols.</strong> Jigsaw for text sets. Fishbowl on "which author's evidence did more work." Gallery walk of field guides.</p>
+<p><strong>Relevancy.</strong> Expository writing is most of what adults actually write: reports, explanations, instructions. The field guide has a real reader.</p></div></details></template><template id="panel-unit-4" data-title="Unit 4. Research, Credibility, and Multimodal Presentation" data-chip="Weeks 15 to 18 · 20 days" data-hue="95" data-kind="unit"><p class="meta"><strong>Weeks 15 to 18 | 20 days | Quarter 2</strong></p>
+<p><strong>Unit questions.</strong> How do I find out what is true, and how do I show my reader where it came from?</p>
+<p><strong>Enduring understanding.</strong> Research begins with questions, depends on credible sources, and requires giving credit in a standard format. The mode of presentation changes how information lands.</p>
+<p class="watch"><strong>Watch-outs.</strong> Keep the product short. Four weeks with a benchmark week is tight. Do not let this become a three-week slideshow unit; the writing standards are the point, and the slides get two days. Pick one citation format (MLA) and use it all year, including in Units 5 and 6.</p><details class="grp" open><summary>Standards</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Role</th>
+<th>Standard</th>
+<th>In plain terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Priority</td>
+<td><code>7.T.RA.1.a</code>, <code>7.T.RA.1.b</code>, <code>7.T.RA.1.c</code></td>
+<td>Generate research questions; locate, gather, curate, integrate information from credible sources; use research to support, challenge, or extend ideas</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.RA.2.a</code>, <code>7.T.RA.2.b</code>, <code>7.T.RA.2.c</code></td>
+<td>Record bibliographic information; analyze credibility and relevance; standard citation format with a works cited page</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.C.2.d</code></td>
+<td>Use credible sources to research answers to questions</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.C.1.c</code></td>
+<td>Construct multimodal texts or presentations with clearly identifiable features of multiple modes</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>K-12.P.CP.2</code></td>
+<td>Presentation skills for a target audience</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.T.T.2.d</code>, <code>7.T.SS.1.b</code></td>
+<td>Expository techniques and structure in the report</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.L.V.3.d</code></td>
+<td>Print and digital reference tools</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.T.C.2.b</code></td>
+<td>Evidence and tone and their effect on credibility</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Language strand.</strong> Punctuation and parentheses with citations when incorporating textual evidence (C). Titles of works (R): quotation marks for articles, italics for sites and books. Active voice in reporting (<code>7.L.GC.2.c</code>). Nonessential elements (M) continue, now as source attribution. Roots: <code>cred</code>, <code>vid/vis</code>, <code>ver</code>, <code>log</code>.</p>
+<p><strong>Learning targets.</strong> Research questions. Source credibility and relevance. Note-taking and paraphrase. In-text citation and works cited (MLA). Integrating evidence. Multimodal design.</p></div></details><details class="grp"><summary>Success criteria ladder</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Surface (DOK 1 to 2)</th>
+<th>Deep (DOK 3)</th>
+<th>Transfer (DOK 3 to 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generate a research question. Identify a credible source for a provided topic. Record author, title, site, and year. Recognize a basic in-text citation.</td>
+<td>Explain why a source is or is not credible and relevant to the question, with specifics. Paraphrase and quote with a standard in-text citation. Build a correct works cited entry from a source.</td>
+<td>Conduct research from multiple credible sources to answer a question and produce a short research text plus a multimodal presentation with features of at least two modes. Use research to challenge or extend an idea from a text.</td>
+</tr>
+</tbody>
+</table></div></div></details><details class="grp"><summary>Stage 2: evidence</summary><div class="inner"><ul>
+<li><strong>Summative.</strong> Short research report (three or four paragraphs, two or three sources, in-text citations, works cited) plus a three-minute multimodal presentation (slides, infographic, or short video with clearly identifiable features of two modes). Semester benchmark in week 18: the district benchmark if scheduled, otherwise a Milestones-format mixed assessment with an extended expository task.</li>
+<li><strong>Formative checkpoints that mirror the summative.</strong> Credibility sort with written justification (week 15). Research paragraph with citation (week 16). Presentation rehearsal with a two-question feedback protocol (week 17).</li>
+<li><strong>Independent rehearsals.</strong> The week 16 research paragraph and the week 18 benchmark.</li>
+<li><strong>Rubric shown.</strong> Report and presentation rubric with a model report in week 15.</li>
+</ul></div></details><details class="grp"><summary>Topic choice</summary><div class="inner"><p>A question that grows from Unit 2 or Unit 3 ("How accurate is the setting of the story we read?" or a follow-up to the field guide), or a local history question: Sapelo Island and Hog Hammock, Fort King George, Darien's timber era, the Altamaha. Local questions are real, students have stake in them, and sources exist.</p></div></details><details class="grp"><summary>Stage 3: weekly arc</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Week</th>
+<th>Focus</th>
+<th>Writing produced</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15</td>
+<td>Questions and source hunt; credibility and relevance; source speed-dating protocol</td>
+<td>Research questions; credibility sort with justification</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Notes, paraphrase, plagiarism; MLA in-text citation and works cited</td>
+<td>Research paragraph with citation</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Draft the report; build the presentation (two days, not two weeks); rehearsal</td>
+<td>Report draft; presentation</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Present; semester benchmark; portfolio reflection</td>
+<td>Final report; benchmark</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Discussion protocols.</strong> Source speed-dating (partners trade sources and vet them). Two-question presentation feedback.</p>
+<p><strong>Relevancy.</strong> Everyone researches. Most do it badly, from the first search result. Credibility is a life skill and the students know it.</p></div></details></template><template id="panel-unit-5" data-title="Unit 5. Argumentative Writing from Sources" data-chip="Weeks 19 to 25 · 35 days" data-hue="350" data-kind="unit"><p class="meta"><strong>Weeks 19 to 25 | 35 days | Quarter 3</strong></p>
+<p><strong>Unit questions.</strong> What makes an argument worth believing? How do I answer the other side without losing my own?</p>
+<p><strong>Enduring understanding.</strong> An argument advances a claim with reasons and relevant evidence, acknowledges a counterclaim and answers it, and ends with a conclusion that follows logically. Perspective, tone, and evidence decide whether a reader trusts the writer.</p>
+<p class="watch"><strong>Watch-outs.</strong> Counterclaim is where 7th graders collapse. They state it and never answer it, or they answer by insulting it. Teach the concession sentence explicitly and require the rebuttal. Trait 2 rewards elaboration, not evidence volume; push "so what" after every citation. Score at least two timed essays with the actual Milestones rubric before the summative, and give the trait scores back to students.</p><details class="grp" open><summary>Standards</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Role</th>
+<th>Standard</th>
+<th>In plain terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.3.c</code></td>
+<td>Apply argumentative techniques: claim, relevant evidence, counterclaim, logical conclusion</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.3.a</code></td>
+<td>Analyze argumentative techniques in texts</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.C.2.a</code>, <code>7.T.C.2.b</code></td>
+<td>Determine the prevailing perspective; analyze how evidence and tone reveal perspective and affect credibility</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.SS.1.c</code>, <code>7.T.SS.1.d</code></td>
+<td>Transitions across paragraphs; multi-paragraph structure</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.L.GC.2.b</code>, <code>7.L.GC.2.c</code></td>
+<td>Sentence variety with consistent tense; active voice</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.RA.2.c</code></td>
+<td>Cite integrated evidence in a standard format</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.T.C.2.c</code></td>
+<td>Context and its effect on a text</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.T.SS.2.c</code></td>
+<td>Formal style</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.L.V.3.c</code>, <code>7.L.V.3.e</code></td>
+<td>Connotation; loaded language</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>K-12.P.ST.2</code></td>
+<td>Author, audience, and purpose</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Language strand.</strong> Correlative conjunctions (R) for framing claim and counterclaim: "not only ... but also," "either ... or," "whether ... or." Subordinating conjunctions with introductory commas (R) for concession: "Although the article claims ..., ...". Semicolons with conjunctive adverbs (C): "however," "therefore," "consequently." Indefinite pronoun agreement (R): the "everyone ... their" trap. Active voice (<code>7.L.GC.2.c</code>) as a revision move. Nonessential elements (M) for attribution: "The author, a pediatrician who has studied screen time, argues ...". Roots: <code>fid</code>, <code>jud/jur</code>, <code>contra</code>, <code>ver</code>.</p>
+<p><strong>Learning targets.</strong> Claim. Reasons and relevant evidence. Counterclaim and rebuttal. Logical conclusion. Author's perspective, tone, and credibility. Argumentative structure.</p></div></details><details class="grp"><summary>Success criteria ladder</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Surface (DOK 1 to 2)</th>
+<th>Deep (DOK 3)</th>
+<th>Transfer (DOK 3 to 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identify the claim, a piece of evidence, and the counterclaim in an argument. Identify a text's prevailing perspective. Classify sentences as active or passive.</td>
+<td>Explain how evidence and tone reveal an author's perspective and affect credibility, with evidence. Given a claim, write a counterclaim paragraph with a rebuttal. Given a reason, add relevant evidence and elaborate on it. Write a conclusion that follows logically from a provided argument. Revise passive sentences to active.</td>
+<td>Write a multi-paragraph argument from two sources with a claim, reasons, cited evidence with elaboration, an addressed counterclaim, and a conclusion that follows. Analyze two authors' perspectives on the same issue and judge which is more credible.</td>
+</tr>
+</tbody>
+</table></div></div></details><details class="grp"><summary>Stage 2: evidence</summary><div class="inner"><ul>
+<li><strong>Summative.</strong> Milestones-format extended argumentative essay from paired sources, 90 minutes, on demand in week 25, scored on the 3-trait rubric. Plus a process argument for a real audience (letter to the principal, school board, or county commission, or an op-ed) taken through revision. Plus a perspective and credibility constructed response on two authors (<code>7.T.C.2.b</code>).</li>
+<li><strong>Formative checkpoints that mirror the summative.</strong> Section-level tasks weekly: claim and reasons only; counterclaim paragraph only; conclusion only; evidence and elaboration for a given reason. Timed essays in weeks 21 and 23, each scored on the rubric and conferenced.</li>
+<li><strong>Independent rehearsals.</strong> The week 21 and week 23 timed essays.</li>
+<li><strong>Rubric shown.</strong> Argument exemplar and weak sample scored in week 19; anonymized student essays from prior years for calibration in week 23.</li>
+</ul></div></details><details class="grp"><summary>Mentor and source texts</summary><div class="inner"><p>Argumentative pairs from CommonLit, Newsela, and GaDOE released Milestones passages. Speeches: Malala Yousafzai's UN address, Severn Cullis-Suzuki's Rio address. For <code>7.T.C.2.b</code>, an op-ed and a news report on the same issue. Issues students have a stake in: phone policies, dress code, start times, year-round school, a county issue.</p></div></details><details class="grp"><summary>Stage 3: weekly arc</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Week</th>
+<th>Focus</th>
+<th>Writing produced</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>19</td>
+<td>Anatomy of an argument: claim, reasons, evidence; map two arguments; rubric and exemplar</td>
+<td>Argument map CR; claim-and-reasons task</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Evidence selection and elaboration (introduce, cite, explain); citing sources; Philosophical Chairs</td>
+<td>Body paragraph with cited, elaborated evidence</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Counterclaim and rebuttal; concession syntax; correlative and subordinating conjunctions; first timed essay</td>
+<td>Counterclaim paragraph; timed essay 1</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Perspective, tone, and credibility (<code>7.T.C.2</code>); loaded language; Structured Academic Controversy</td>
+<td>Perspective and credibility CR</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Introductions and conclusions for arguments; second timed essay scored and conferenced; calibration with student samples</td>
+<td>Timed essay 2</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Real-audience process argument; revision for active voice and sentence variety; peer review with the rubric</td>
+<td>Letter or op-ed, revised</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Summative on-demand essay; portfolio reflection</td>
+<td>Summative essay; reflection</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Discussion protocols.</strong> Structured Academic Controversy. Philosophical Chairs. Four Corners. Rubric-based peer review.</p>
+<p><strong>Relevancy.</strong> Arguments decide the things students argue about anyway. The real-audience piece goes to a real audience.</p></div></details></template><template id="panel-unit-6" data-title="Unit 6. Literary Analysis and Poetry: Theme, Time, and Craft" data-chip="Weeks 26 to 30 · 25 days" data-hue="275" data-kind="unit"><p class="meta"><strong>Weeks 26 to 30 | 25 days | Quarters 3 and 4</strong></p>
+<p><strong>Unit questions.</strong> How do writers from a particular time and place craft meaning, and how do I write about it? What can a poem do that prose cannot?</p>
+<p><strong>Enduring understanding.</strong> Literature carries the marks of its period. Theme is built through characters, events, and structure, and comparing texts sharpens what each one means. Poets use sound, image, and structure for effect, and so can students.</p>
+<p class="watch"><strong>Watch-outs.</strong> Poetry writing can eat the unit. Hold it to about forty percent of the days. The analysis essay is expository technique applied to literature, which is Milestones-relevant, and it gets the time. Fiction versus historical account (<code>7.T.T.1.d</code>) is a listed grade 7 expectation that is easy to skip. It is here on purpose.</p><details class="grp" open><summary>Standards</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Role</th>
+<th>Standard</th>
+<th>In plain terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.4.a</code>, <code>7.T.T.4.b</code></td>
+<td>Analyze poetic techniques; apply them to produce poetry</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.1.c</code></td>
+<td>Compare and contrast theme development across texts</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.1.d</code></td>
+<td>Compare a fictional portrayal with a historical account of the same period</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.PM.1.b</code></td>
+<td>Analyze one genre of literature from a time period; features of style and theme</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.SS.2.a</code>, <code>7.T.SS.2.b</code></td>
+<td>Explain how figurative and connotative language contribute to meaning, mood, tone; use them for effect</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.C.2.c</code></td>
+<td>Impact of era, place, and events on text development</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.2.d</code></td>
+<td>Expository techniques applied to analytical writing</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.L.V.3.b</code>, <code>7.L.V.3.c</code></td>
+<td>Word relationships; connotation</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>K-12.P.AC.1</code>, <code>K-12.P.CP.2.e</code></td>
+<td>Reading like a writer; reciting poems</td>
+</tr>
+<tr>
+<td>Supporting</td>
+<td><code>7.T.SS.1.d</code></td>
+<td>Multi-paragraph structure</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Language strand.</strong> Verbals by function (I): gerunds and infinitives alongside participles, because poems and analytical sentences are full of them. Progressive, perfect, and perfect progressive aspects (R) in the literary present. Intensive pronouns (R). Punctuation with textual evidence and citations (C). Titles of works (R): poem titles in quotation marks, book titles in italics. Roots: <code>phon</code>, <code>son</code>, <code>lum/luc</code>, <code>tempor</code>.</p>
+<p><strong>Learning targets.</strong> Theme development. Poetic techniques: stanza, rhyme scheme, imagery, figurative language, sound devices. Literary period. Historical context and fiction. Literary analysis structure. Textual evidence and citation.</p></div></details><details class="grp"><summary>Success criteria ladder</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Surface (DOK 1 to 2)</th>
+<th>Deep (DOK 3)</th>
+<th>Transfer (DOK 3 to 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identify poetic techniques in a poem. Identify a theme. Identify a historical detail in fiction that matches an account. Identify key features of a period's style.</td>
+<td>Explain how a technique contributes to meaning, mood, or tone, with evidence. Describe how a theme is developed through events. Compare a fictional portrayal with a historical account. Apply a poetic technique in an original poem for a stated effect.</td>
+<td>Write a literary analysis essay comparing how two texts develop a theme, with cited evidence and explanation. Produce a poem using multiple techniques for effect, with a writer's note explaining the choices. Analyze how a period's context shapes a text.</td>
+</tr>
+</tbody>
+</table></div></div></details><details class="grp"><summary>Stage 2: evidence</summary><div class="inner"><ul>
+<li><strong>Summative.</strong> (1) Literary analysis essay comparing theme development across two texts (a poem and a story, or a novel and a historical account), timed, scored on the 3-trait rubric adapted for analysis (controlling idea in place of claim). (2) Poetry portfolio: three poems using multiple techniques plus a writer's note, and a recitation (<code>K-12.P.CP.2.e</code>).</li>
+<li><strong>Formative checkpoints that mirror the summative.</strong> Technique-and-effect CRs weekly. Theme comparison paragraph (week 28). Fiction-versus-history CR (week 28). Poem drafts with a technique checklist. Timed analysis rehearsal (week 29).</li>
+<li><strong>Independent rehearsals.</strong> The week 29 timed rehearsal and the week 30 summative.</li>
+<li><strong>Rubric shown.</strong> Analysis exemplar in week 26; poetry rubric with a model poem and writer's note in week 26.</li>
+</ul></div></details><details class="grp"><summary>Texts</summary><div class="inner"><p>Period option A: Harlem Renaissance poetry as the genre from a time period (<code>7.T.PM.1.b</code>): Langston Hughes ("Harlem," "Mother to Son," "I, Too"), Countee Cullen, James Weldon Johnson, paired with a short historical account of the Great Migration, which began in Georgia and ties to <code>7.T.C.2.c</code>. Period option B: a historical novel with a historical pairing for <code>7.T.T.1.d</code>: "A Long Walk to Water" with news accounts of the Lost Boys of Sudan, or excerpts from "Roll of Thunder, Hear My Cry" with an account of 1930s Mississippi. Additional poems for technique: Frost, Dickinson, Angelou's "Still I Rise," Naomi Shihab Nye, Poe's "Annabel Lee."</p></div></details><details class="grp"><summary>Stage 3: weekly arc</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Week</th>
+<th>Focus</th>
+<th>Writing produced</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26</td>
+<td>Poetic techniques through reading; sound and image; imitation poems; rubrics and exemplars</td>
+<td>Technique-and-effect CR; imitation poem</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Period study: context, features of style and theme (<code>7.T.PM.1.b</code>, <code>7.T.C.2.c</code>); Socratic seminar</td>
+<td>Period features CR; poem 2</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Fiction and historical account; theme development across texts</td>
+<td>Fiction-versus-history CR; theme comparison paragraph</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Writing about literature: literary present, embedded evidence, citation; timed analysis rehearsal; conference</td>
+<td>Timed rehearsal; revision</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Poetry portfolio finishing and recitation; summative analysis essay; portfolio reflection</td>
+<td>Summative essay; portfolio</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Discussion protocols.</strong> Socratic seminar on the poems. Poetry read-around. Save the Last Word. Analysis peer review.</p>
+<p><strong>Relevancy.</strong> Music is poetry and students already analyze lyrics. The period study is Georgia history.</p></div></details></template><template id="panel-unit-7" data-title="Unit 7. Milestones Writing Intensive" data-chip="Weeks 31 to 33 · 15 days" data-hue="40" data-kind="unit"><p class="meta"><strong>Weeks 31 to 33 | 15 days | Quarter 4</strong></p>
+<p><strong>Unit question.</strong> How do I show what I can do as a writer under test conditions?</p>
+<p><strong>Enduring understanding.</strong> The EOG samples the year. Writers who can name the trait can fix the draft.</p>
+<p class="watch"><strong>Watch-outs.</strong> Do not run three weeks of packets. Do not skip narrative because it is not the extended task; the ALDs test it as a constructed response. Students who score 1 on Trait 2 need elaboration practice, not more grammar.</p><details class="grp" open><summary>Standards</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Role</th>
+<th>Standard</th>
+<th>In plain terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.2.d</code>, <code>7.T.T.3.c</code></td>
+<td>Expository and argumentative techniques on demand</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.SS.1.b</code>, <code>7.T.SS.1.c</code>, <code>7.T.SS.1.d</code></td>
+<td>Structure, transitions, complete texts and sections of texts</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.L.GC.1</code> (tested R and M items), <code>7.L.GC.2.b</code>, <code>7.L.GC.2.c</code>, <code>7.L.GC.2.d</code></td>
+<td>Conventions, sentence variety, active voice, modifiers in revision items</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><code>7.T.T.1.e</code></td>
+<td>Narrative constructed response</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>No new content.</strong> Every day includes real writing scored against the rubric with feedback that names the trait.</p></div></details><details class="grp"><summary>Stage 3: daily arc</summary><div class="inner"><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>Days</th>
+<th>Focus</th>
+<th>Writing produced</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 to 3</td>
+<td>Expository cycle: section-level tasks (introduction, transitions, conclusion), then a full timed essay</td>
+<td>Timed expository essay</td>
+</tr>
+<tr>
+<td>4 to 6</td>
+<td>Argumentative cycle: counterclaim and elaboration tasks, then a full timed essay</td>
+<td>Timed argumentative essay</td>
+</tr>
+<tr>
+<td>7 to 8</td>
+<td>Narrative constructed response from a passage; dialogue and description for purpose</td>
+<td>Timed narrative CR</td>
+</tr>
+<tr>
+<td>9 to 10</td>
+<td>Revision and editing in Milestones item formats: best transition, fix the modifier, punctuate the appositive, active voice, tense consistency, sentence combining</td>
+<td>Item sets</td>
+</tr>
+<tr>
+<td>11 to 12</td>
+<td>Full mock EOG, including the extended writing task, scored by trait</td>
+<td>Mock EOG</td>
+</tr>
+<tr>
+<td>13 to 15</td>
+<td>Trait-based small groups from mock scores; pacing plan (plan 5, draft 40, revise 10)</td>
+<td>Targeted revision</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Assessment.</strong> The mock EOG in days 11 and 12. An AI-scored writing simulation with trait feedback, if one is built for grade 7, gets every student a trait score overnight.</p></div></details></template><template id="panel-unit-eog" data-title="Weeks 34 to 36. EOG window and Capstone" data-chip="Weeks 34 to 36 · 15 days" data-hue="300" data-kind="unit"><p><strong>Weeks 34 and 35: EOG testing.</strong> Light writing on non-testing days: notebook, independent reading, portfolio curation.</p>
+<p><strong>Week 36 and remaining days: Capstone.</strong> A multimodal text on a topic of the student's choice in any genre studied this year (podcast segment, photo essay, zine, PSA, short documentary script), for <code>7.T.C.1.c</code>, <code>K-12.P.AC.3.d</code>, and <code>K-12.P.CP.2</code>. A portfolio reflection letter that revisits the August goals against the baseline and the mock scores (<code>K-12.P.EICC.1.a</code>, <code>K-12.P.EICC.1.b</code>). Grade 8 bridge in sentence-of-the-day: colons to introduce quotations, dashes, tenses and aspects for verb mood, and using a style guide, which are the grade 8 Introduce items.</p>
+</template><template id="panel-ref-1" data-title="How to use this map" data-chip="Reference" data-kind="ref"><p><strong>What this document does.</strong> It fixes the sequence, the priority standards, the summative task, and the success-criteria ladder for each unit. A unit plan (Stage 1, 2, 3) gets built from the unit's section here. Stage 1 copies the unit's priority standards. Stage 2 builds the summative named here first, then the formatives that mirror it. Stage 3 fills in the weekly arc.</p>
 <p><strong>Calendar assumptions.</strong> 36 instructional weeks in four 9-week grading periods, 180 days, five days per week. The Georgia Milestones EOG window is placed in weeks 34 and 35 (late April). If MCSS tests earlier, pull Unit 7 forward and shorten Unit 6 by one week. Nothing else moves.</p>
 <p><strong>Priority versus supporting standards.</strong> Each unit lists a short set of priority standards. Those go in Stage 1 and get assessed on the summative with three or more items or a rubric row each. Supporting standards are taught through routines and do not go in Stage 1. Keeping Stage 1 to six or seven standards is what makes a unit teachable and assessable. A Stage 1 with fifteen standards is a list, not a plan.</p>
 <p><strong>Standard codes.</strong> Codes follow the 2023 document: <code>7.T.T.3.c</code> is Texts domain, Techniques big idea, Argumentative standard, expectation c. <code>K-12.P.EICC.4</code> is the Practices domain writing-process standard. GUM codes (I, C, M, R) come from the Grammar, Usage, and Mechanics chart in the standards document and mean Introduce, Continue, Master, Reinforce at grade 7.</p>
 <p><strong>If the year is already underway.</strong> Drop in at the current week. Run the baseline writing this week if it has not happened. Hold the Unit 5 argument dates and the Unit 7 dates. The non-negotiables for the year are: an expository and an argumentative extended writing task in Georgia Milestones format before the EOG window, at least four timed essays scored with the Milestones rubric across the year, and section-level writing tasks in every unit.</p>
-<hr />
-<h2 id="2-year-at-a-glance">2. Year at a glance</h2>
-<div class="table-wrap"><table class="">
+</template><template id="panel-ref-2" data-title="Year at a glance" data-chip="Reference" data-kind="ref"><div class="table-wrap"><table class="">
 <thead>
 <tr>
 <th>Unit</th>
@@ -210,9 +1082,7 @@ table.matrix td:first-child{font-weight:450}
 </tr>
 </tbody>
 </table></div>
-<hr />
-<h2 id="3-the-georgia-milestones-writing-target">3. The Georgia Milestones writing target</h2>
-<p>This section is what the ALDs actually say about writing at grade 7, translated into planning terms. Read it before building any Stage 2.</p>
+</template><template id="panel-ref-3" data-title="The Georgia Milestones writing target" data-chip="Reference" data-kind="ref"><p>This section is what the ALDs actually say about writing at grade 7, translated into planning terms. Read it before building any Stage 2.</p>
 <h3 id="31-the-extended-writing-task">3.1 The extended writing task</h3>
 <p>The extended writing task is scored on the Georgia Milestones three-trait, eight-point rubric:</p>
 <div class="table-wrap"><table class="">
@@ -370,9 +1240,7 @@ table.matrix td:first-child{font-weight:450}
 </table></div>
 <p>In every unit below, the Surface column is the Beginning and Developing descriptors, the Deep column is the Proficient descriptor, and the Transfer column is the Distinguished descriptor. That keeps the ladder honest and keeps the target visible.</p>
 <p><strong>Caveat.</strong> These ALDs are marked draft and are subject to revision after standard setting. Confirm item counts and the DOK share in the current GaDOE Grade 7 ELA Assessment Guide and blueprint before entering a DOK distribution in Stage 2.</p>
-<hr />
-<h2 id="4-year-long-routines-the-writing-spine">4. Year-long routines: the writing spine</h2>
-<p>These run in every unit. They are what make the unit plans satisfy the reading, writing, and discussion expectations without bolting anything on.</p>
+</template><template id="panel-ref-4" data-title="Year-long routines: the writing spine" data-chip="Reference" data-kind="ref"><p>These run in every unit. They are what make the unit plans satisfy the reading, writing, and discussion expectations without bolting anything on.</p>
 <div class="table-wrap"><table class="">
 <thead>
 <tr>
@@ -441,9 +1309,7 @@ table.matrix td:first-child{font-weight:450}
 </table></div>
 <p><strong>Classroom language.</strong> Use the rubric trait names from August: Purpose and Organization, Evidence and Elaboration, Language Usage and Conventions. Feedback names the trait. Students self-assess by trait. By April the rubric is not new.</p>
 <p><strong>Vocabulary strand.</strong> Each unit carries four or five Greek and Latin roots tied to the unit's content and a Tier 2 academic list drawn from the mentor texts. Students construct words from roots and affixes (<code>7.L.V.2.c</code>) and keep a connotation ladder for word-choice decisions (<code>7.L.V.3.c</code>, <code>7.L.V.3.e</code>). Vocabulary shows up in the writing, not on a Friday quiz alone.</p>
-<hr />
-<h2 id="5-assessment-calendar">5. Assessment calendar</h2>
-<div class="table-wrap"><table class="">
+</template><template id="panel-ref-5" data-title="Assessment calendar" data-chip="Reference" data-kind="ref"><div class="table-wrap"><table class="">
 <thead>
 <tr>
 <th>Week</th>
@@ -520,870 +1386,7 @@ table.matrix td:first-child{font-weight:450}
 </tbody>
 </table></div>
 <p>Four timed Milestones-format essays before the mock (weeks 2, 14, 18, 25) plus at least two rehearsals inside each of Units 3 and 5. That is the stamina plan.</p>
-<hr />
-<h2 id="6-unit-1-launch-a-community-of-writers-and-readers">6. Unit 1. Launch: A Community of Writers and Readers</h2>
-<p class="meta"><strong>Weeks 1 to 3 | 15 days | Quarter 1</strong></p>
-<p><strong>Unit questions.</strong> What do writers actually do? Who am I as a writer, and what do I need this year?</p>
-<p><strong>Enduring understanding.</strong> Writing is a series of decisions, and purpose and audience drive every one of them. A writer who can name the decision can revise it.</p>
-<h3 id="standards">Standards</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Role</th>
-<th>Standard</th>
-<th>In plain terms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Priority</td>
-<td><code>K-12.P.EICC.1</code> (a, b, e, f)</td>
-<td>Reader and writer identity: goals, preferences, community norms, independence</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>K-12.P.EICC.4</code> (a to h)</td>
-<td>Writing process: purpose and audience, plan, generate, draft, evaluate, revise, edit</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.SS.1.d</code></td>
-<td>Multi-paragraph text with an introduction that guides focus, support, and a conclusion (baseline)</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.L.GC.2.b</code></td>
-<td>Simple, compound, complex, compound-complex sentences; consistent verb tense</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.T.SS.2.c</code></td>
-<td>Formal versus informal style by situation</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>K-12.P.CP.1</code></td>
-<td>Collaboration norms</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.L.V.1.b</code></td>
-<td>Academic vocabulary in writing</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Language strand.</strong> Diagnostic on the Reinforce items (subject-verb agreement, pronoun-antecedent and indefinite pronoun agreement, commas after introductory elements, subordinating conjunctions, titles of works). Four sentence types. Fragments and run-ons. Demonstrative pronouns (<code>this</code>, <code>that</code>, <code>these</code>, <code>those</code> standing alone as pronouns, and the vague sentence-opening "This" that the Reinforce item on vague pronoun references targets). Roots: <code>graph</code>, <code>scrib/script</code>, <code>dict</code>, <code>voc</code>.</p>
-<p><strong>Learning targets (noun concepts).</strong> The writing process. Audience and purpose. Paragraph structure: focus, support, close. Sentence types. Writer identity and goals.</p>
-<h3 id="success-criteria-ladder">Success criteria ladder</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Surface (DOK 1 to 2)</th>
-<th>Deep (DOK 3)</th>
-<th>Transfer (DOK 3 to 4)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Name the stages of the writing process and what each produces. Identify the audience and purpose of a mentor text. Classify sentences by type.</td>
-<td>Explain how a mentor writer's choices fit purpose and audience. Revise a paragraph so the focus, support, and close cohere. Combine sentences using all four types without changing meaning.</td>
-<td>Produce an on-demand text-based response with an introduction that guides the focus, support, and a conclusion. Set and justify personal writing goals from baseline trait scores.</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="stage-2-evidence">Stage 2: evidence</h3>
-<ul>
-<li><strong>Summative.</strong> Baseline extended writing in Milestones format (one or two short sources, 45 minutes, argumentative or expository), scored on the 3-trait rubric. Plus a writer's launch piece (a short personal essay or letter about the student as a writer, taken through the full process). Plus the GUM diagnostic. The baseline is not graded punitively. It sets goals and groups.</li>
-<li><strong>Formative checkpoints that mirror the summative.</strong> A timed single-paragraph response to a short text in week 1. A paragraph revision task in week 2 (given a draft paragraph, fix focus, support, and close).</li>
-<li><strong>Independent rehearsals.</strong> The week 1 timed paragraph and the week 2 baseline itself.</li>
-<li><strong>Rubric shown.</strong> The 3-trait rubric introduced in week 2 with one strong and one weak sample scored as a class.</li>
-</ul>
-<h3 id="mentor-texts">Mentor texts</h3>
-<p>Short pieces about writing and reading: an author interview or a short personal essay on why the author writes, a letter to a younger writer, a short anthology narrative used as a shared read. Keep them short. The text serves the writing.</p>
-<h3 id="stage-3-weekly-arc">Stage 3: weekly arc</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Week</th>
-<th>Focus</th>
-<th>Writing produced</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Norms (chalk talk protocol), notebooks, writer identity survey, sentence-type diagnostic, first shared text</td>
-<td>Quick writes; timed paragraph to a short text</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Paragraph anatomy; introduce the 3-trait rubric with samples; baseline extended writing; GUM diagnostic</td>
-<td>Baseline essay; paragraph revision task</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Revision and editing habits on the launch piece; peer response protocol (Praise, Question, Polish); author's chair; goal conferences from baseline</td>
-<td>Launch piece published; goals written</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Discussion protocols.</strong> Chalk talk for norms. Save the Last Word for the shared text. Author's chair.</p>
-<p><strong>Relevancy.</strong> Students already make writing decisions every day in texts and captions. The unit names what they already do and puts a rubric on it.</p>
-<p class="watch"><strong>Watch-outs.</strong> Do not spend three weeks on procedures. A real piece of writing comes out by day 7. The baseline has to be in Milestones format or it tells you nothing usable about trait scores. Score the baseline yourself with the 3-trait rubric; the trait pattern across the class sets the emphasis for Units 3 and 5.</p>
-<hr />
-<h2 id="7-unit-2-narrative-craft-myths-retellings-and-the-tools-of-story">7. Unit 2. Narrative Craft: Myths, Retellings, and the Tools of Story</h2>
-<p class="meta"><strong>Weeks 4 to 9 | 30 days | Quarter 1</strong></p>
-<p><strong>Unit questions.</strong> How do writers use narrative techniques to shape what a reader feels and understands? Why do modern writers keep retelling old stories, and what changes when they do?</p>
-<p><strong>Enduring understanding.</strong> Narrative techniques (sequencing, dialogue, description, pacing, flashback, foreshadowing) are choices that develop plot, character, and setting toward a purpose. Theme is built, not stated.</p>
-<h3 id="standards_1">Standards</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Role</th>
-<th>Standard</th>
-<th>In plain terms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.1.e</code></td>
-<td>Apply narrative techniques to enhance writing, engage audiences, achieve purposes</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.1.a</code>, <code>7.T.T.1.b</code></td>
-<td>Analyze how techniques develop plot, character, setting; analyze plot structure, conflict, narrative devices</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.1.c</code></td>
-<td>Compare and contrast how themes are developed across texts</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.PM.1.a</code></td>
-<td>Analyze myths and stories that modern writers adapted; identify features of style and theme</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.L.GC.2.b</code>, <code>7.L.GC.2.d</code></td>
-<td>Sentence variety with consistent verb tense; misplaced and dangling modifiers</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.SS.2.b</code></td>
-<td>Figurative language, literary devices, connotative language for intentional effect</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.T.SS.1.c</code></td>
-<td>Transitions of time and sequence</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.L.V.3.c</code>, <code>7.L.V.3.e</code></td>
-<td>Connotation in character and setting description</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>K-12.P.AC.1</code>, <code>K-12.P.AC.2</code>, <code>K-12.P.EICC.2.a</code></td>
-<td>Reading like a writer; writing like a reader; sharing real or imagined experiences</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Language strand.</strong> Dialogue punctuation with attributions (R): taught in week 5, not week 9. Verb tense consistency across a narrative. Participles and participial phrases as description (the verbals Introduce item) paired directly with misplaced and dangling modifiers, because the participial phrase is where the dangling modifier lives. Ellipses (C) for trailing dialogue. Vague pronoun references (R) in multi-character scenes. Hyphenated compound modifiers (C): "a well-worn path." Roots: <code>chron</code>, <code>path</code>, <code>bene/mal</code>, <code>morph</code>.</p>
-<p><strong>Learning targets.</strong> Narrative techniques. Plot structure and conflict. Theme development. Adaptation and retelling. Sentence variety and tense. Modifiers.</p>
-<h3 id="success-criteria-ladder_1">Success criteria ladder</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Surface (DOK 1 to 2)</th>
-<th>Deep (DOK 3)</th>
-<th>Transfer (DOK 3 to 4)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identify narrative techniques and plot stages in a story. Identify the myth a modern text adapts and one element it kept. Identify tense shifts and misplaced modifiers in a draft.</td>
-<td>Analyze how a technique develops character or setting in a section of text, with evidence. Describe how a theme is developed through events. Apply one technique (a line of dialogue, a descriptive detail) for a stated purpose. Revise a passage for tense consistency.</td>
-<td>Write a narrative that sequences plot (exposition, rising action, climax, resolution) and uses dialogue and description for purpose. Compare theme development across the myth and its retelling with textual evidence. Use a narrative technique inside a non-narrative piece.</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="stage-2-evidence_1">Stage 2: evidence</h3>
-<ul>
-<li><strong>Summative.</strong> (1) Process piece: a modern retelling of a myth, or a narrative continuation from another character's point of view, two to four pages, full process, scored with a narrative rubric built from the <code>7.T.T.1</code> ALD Proficient bullets (clear sequence with climax and resolution, dialogue for purpose, descriptive details for purpose, consistent tense). (2) Timed narrative constructed response from a passage, 30 minutes: continue the scene or retell from another point of view using dialogue and description. (3) Theme comparison constructed response on the myth and the retelling.</li>
-<li><strong>Formative checkpoints that mirror the summative.</strong> Weekly "one scene, one technique" quick writes. Timed narrative CRs in weeks 6 and 8. Theme paragraph in week 7.</li>
-<li><strong>Independent rehearsals.</strong> The week 6 and week 8 timed CRs.</li>
-<li><strong>Rubric shown.</strong> Narrative rubric and an exemplar retelling in week 4; a weak sample scored in week 5.</li>
-</ul>
-<h3 id="mentor-and-source-texts">Mentor and source texts</h3>
-<p>Use district-adopted anthology stories first. Options that carry the standards: "Seventh Grade" (Gary Soto), "Thank You, M'am" (Langston Hughes), "Rikki-Tikki-Tavi" (Rudyard Kipling), "The Third Wish" (Joan Aiken), "Amigo Brothers" (Piri Thomas). Myth and adaptation pairs for <code>7.T.PM.1.a</code>: "Daedalus and Icarus" with "Landscape with the Fall of Icarus" (William Carlos Williams) or a Percy Jackson excerpt; "Arachne" with a modern retelling; "Pandora"; "Echo and Narcissus." A myth collection (Hamilton or D'Aulaires excerpts) supplies the source myths.</p>
-<h3 id="stage-3-weekly-arc_1">Stage 3: weekly arc</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Week</th>
-<th>Focus</th>
-<th>Writing produced</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>4</td>
-<td>Plot structure and sequencing; conflict; reading a short story with a plot map backed by evidence; rubric and exemplar</td>
-<td>Quick writes; plot-map CR</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Characterization through dialogue and description; dialogue punctuation with attributions; Says/Does protocol on a mentor passage</td>
-<td>Dialogue scene; weekly CR on characterization</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Setting; figurative language for mood; participial phrases and modifiers; first timed narrative CR</td>
-<td>Setting paragraph; timed CR 1</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Myths and retellings (<code>7.T.PM.1.a</code>); theme development compared across the pair; Socratic seminar</td>
-<td>Theme comparison CR</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Drafting the retelling; flashback and foreshadowing; pacing; second timed narrative CR</td>
-<td>Full draft; timed CR 2</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Revision for tense, sentence variety, modifiers; peer response; publish; author's chair; portfolio reflection</td>
-<td>Final retelling; reflection</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Discussion protocols.</strong> Says/Does on mentor passages. Socratic seminar on the myth pairing. Praise, Question, Polish for peer response. Author's chair.</p>
-<p><strong>Relevancy.</strong> Marvel, Percy Jackson, and most of Disney are retellings. Students diagnose what a retelling changes and why, then do it themselves.</p>
-<p class="watch"><strong>Watch-outs.</strong> Narrative is where 7th grade writing time goes to die, and it is the least weighted writing on the EOG. Six weeks is the cap. Dialogue punctuation is the most common conventions error in narrative; front-load it. Do not let figurative language become simile hunting; the standard is effect on meaning, mood, and tone, and the success criteria say so.</p>
-<hr />
-<h2 id="8-unit-3-expository-writing-from-sources">8. Unit 3. Expository Writing from Sources</h2>
-<p class="meta"><strong>Weeks 10 to 14 | 25 days | Quarter 2</strong></p>
-<p><strong>Unit questions.</strong> How do writers turn information into understanding for a reader? How do two writers on the same topic end up with different texts?</p>
-<p><strong>Enduring understanding.</strong> Expository writers commit to a main idea, support it with facts, statistics, and key details, organize with a structure fit to purpose, and close with a sense of closure. Two authors on one topic emphasize different evidence, and a reader can see it.</p>
-<h3 id="standards_2">Standards</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Role</th>
-<th>Standard</th>
-<th>In plain terms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.2.d</code></td>
-<td>Apply expository techniques: main idea, facts, statistics, key details, text features, closure</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.2.a</code>, <code>7.T.T.2.b</code></td>
-<td>Analyze expository techniques; analyze how two authors on the same topic emphasize different evidence</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.SS.1.a</code>, <code>7.T.SS.1.b</code></td>
-<td>Analyze how authors modify structures; design texts with structures and features fit to purpose and audience</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.SS.1.c</code>, <code>7.T.SS.1.d</code></td>
-<td>Varied transitions across paragraphs; multi-paragraph text with introduction, support, conclusion</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.SS.2.c</code></td>
-<td>Formal style by situation</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.C.1.a</code>, <code>7.T.C.1.b</code></td>
-<td>Multiple purposes in a text; text mode features that aid comprehension</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.T.RA.2.a</code></td>
-<td>Record source information (author, title, site, year)</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.L.GC.2.c</code></td>
-<td>Active voice</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>K-12.P.AC.3</code></td>
-<td>Text design</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Language strand.</strong> Commas, parentheses, and dashes to set off nonessential elements: this is the grade 7 Master item, and the appositive is the entry point ("The Altamaha, the largest free-flowing river in Georgia, ..."). Semicolons in a series that contains commas (R). Colons to introduce lists and examples (I). Hyphens in compound words (C). Titles of works (R) when naming sources. Subordinating conjunctions for cause and effect (R). Roots: <code>struct</code>, <code>port</code>, <code>spec</code>, <code>form</code>.</p>
-<p><strong>Learning targets.</strong> Main idea and support. Text structures: compare and contrast, cause and effect, problem and solution, description, sequence. Transitions. Introductions and conclusions. Formal style. Text features.</p>
-<h3 id="success-criteria-ladder_2">Success criteria ladder</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Surface (DOK 1 to 2)</th>
-<th>Deep (DOK 3)</th>
-<th>Transfer (DOK 3 to 4)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identify a main idea and the facts that support it. Identify a text's structure and its signal words. Identify transitions. Classify sentences as formal or informal.</td>
-<td>Explain how two authors shape the same topic differently, with evidence from both. Apply expository techniques within a paragraph: topic sentence, fact or statistic, key detail, closure. Craft a complete introduction, or revise a conclusion, for a provided draft. Add varied transitions across two paragraphs.</td>
-<td>Write a multi-paragraph expository essay from two sources with a coherent structure chosen for the purpose, an introduction that guides the focus, supported body paragraphs, a conclusion, and consistent formal style. Design a text with features that serve the reader.</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="stage-2-evidence_2">Stage 2: evidence</h3>
-<ul>
-<li><strong>Summative.</strong> Milestones-format extended expository essay from two paired informational texts, 90 minutes, on demand in week 14, scored on the 3-trait rubric. Plus an earlier process piece: a field-guide article with text features (headings, captions, a chart or sidebar) on a coastal Georgia topic (marsh ecosystems, the Altamaha, Sapelo Island and Hog Hammock, Darien's shrimping fleet), for <code>7.T.SS.1.b</code> and <code>K-12.P.AC.3</code>. Plus a paired-source selected-response and constructed-response set for <code>7.T.T.2.b</code>.</li>
-<li><strong>Formative checkpoints that mirror the summative.</strong> Weekly section-level tasks: introduction only, conclusion only, transitions across two given paragraphs, insert a statistic and elaborate. One full timed essay in week 12, scored and conferenced.</li>
-<li><strong>Independent rehearsals.</strong> The week 12 timed essay and the week 14 summative.</li>
-<li><strong>Rubric shown.</strong> 3-trait rubric with an expository exemplar and a weak sample in week 10.</li>
-</ul>
-<h3 id="mentor-and-source-texts_1">Mentor and source texts</h3>
-<p>Paired informational texts from the anthology, CommonLit paired texts, Newsela text sets, and GaDOE released Milestones paired passages. Local sources: Georgia DNR coastal articles, Sapelo Island NERR materials. Two texts on one topic is the unit's reading shape, because <code>7.T.T.2.b</code> requires it and the extended writing task is built on it.</p>
-<h3 id="stage-3-weekly-arc_2">Stage 3: weekly arc</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Week</th>
-<th>Focus</th>
-<th>Writing produced</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10</td>
-<td>What expository writing does; main idea and support; annotate mentor texts for techniques; rubric and exemplar</td>
-<td>Weekly CR: paragraph applying expository techniques</td>
-</tr>
-<tr>
-<td>11</td>
-<td>Text structures and transitions; write body paragraphs from a source; appositives and nonessential elements</td>
-<td>Two body paragraphs; transition task</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Introductions and conclusions; two authors on the same topic (<code>7.T.T.2.b</code>); fishbowl; first full timed essay</td>
-<td>Timed essay 1</td>
-</tr>
-<tr>
-<td>13</td>
-<td>Field-guide article with text features; formal style; colons and semicolons; jigsaw of local sources</td>
-<td>Field-guide draft and revision</td>
-</tr>
-<tr>
-<td>14</td>
-<td>Revise the timed essay against the rubric; conference; summative on-demand essay; portfolio reflection</td>
-<td>Summative essay; reflection</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Discussion protocols.</strong> Jigsaw for text sets. Fishbowl on "which author's evidence did more work." Gallery walk of field guides.</p>
-<p><strong>Relevancy.</strong> Expository writing is most of what adults actually write: reports, explanations, instructions. The field guide has a real reader.</p>
-<p class="watch"><strong>Watch-outs.</strong> The five-paragraph template produces a Trait 1 score of 2, not 3. The standard says "flexibly employing a variety of text structures." Teach structure as a choice. Students will copy from sources; teach paraphrase and the attribution move now, because Trait 2 rewards crediting sources and Unit 4 formalizes citation.</p>
-<hr />
-<h2 id="9-unit-4-research-credibility-and-multimodal-presentation">9. Unit 4. Research, Credibility, and Multimodal Presentation</h2>
-<p class="meta"><strong>Weeks 15 to 18 | 20 days | Quarter 2</strong></p>
-<p><strong>Unit questions.</strong> How do I find out what is true, and how do I show my reader where it came from?</p>
-<p><strong>Enduring understanding.</strong> Research begins with questions, depends on credible sources, and requires giving credit in a standard format. The mode of presentation changes how information lands.</p>
-<h3 id="standards_3">Standards</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Role</th>
-<th>Standard</th>
-<th>In plain terms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Priority</td>
-<td><code>7.T.RA.1.a</code>, <code>7.T.RA.1.b</code>, <code>7.T.RA.1.c</code></td>
-<td>Generate research questions; locate, gather, curate, integrate information from credible sources; use research to support, challenge, or extend ideas</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.RA.2.a</code>, <code>7.T.RA.2.b</code>, <code>7.T.RA.2.c</code></td>
-<td>Record bibliographic information; analyze credibility and relevance; standard citation format with a works cited page</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.C.2.d</code></td>
-<td>Use credible sources to research answers to questions</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.C.1.c</code></td>
-<td>Construct multimodal texts or presentations with clearly identifiable features of multiple modes</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>K-12.P.CP.2</code></td>
-<td>Presentation skills for a target audience</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.T.T.2.d</code>, <code>7.T.SS.1.b</code></td>
-<td>Expository techniques and structure in the report</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.L.V.3.d</code></td>
-<td>Print and digital reference tools</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.T.C.2.b</code></td>
-<td>Evidence and tone and their effect on credibility</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Language strand.</strong> Punctuation and parentheses with citations when incorporating textual evidence (C). Titles of works (R): quotation marks for articles, italics for sites and books. Active voice in reporting (<code>7.L.GC.2.c</code>). Nonessential elements (M) continue, now as source attribution. Roots: <code>cred</code>, <code>vid/vis</code>, <code>ver</code>, <code>log</code>.</p>
-<p><strong>Learning targets.</strong> Research questions. Source credibility and relevance. Note-taking and paraphrase. In-text citation and works cited (MLA). Integrating evidence. Multimodal design.</p>
-<h3 id="success-criteria-ladder_3">Success criteria ladder</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Surface (DOK 1 to 2)</th>
-<th>Deep (DOK 3)</th>
-<th>Transfer (DOK 3 to 4)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Generate a research question. Identify a credible source for a provided topic. Record author, title, site, and year. Recognize a basic in-text citation.</td>
-<td>Explain why a source is or is not credible and relevant to the question, with specifics. Paraphrase and quote with a standard in-text citation. Build a correct works cited entry from a source.</td>
-<td>Conduct research from multiple credible sources to answer a question and produce a short research text plus a multimodal presentation with features of at least two modes. Use research to challenge or extend an idea from a text.</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="stage-2-evidence_3">Stage 2: evidence</h3>
-<ul>
-<li><strong>Summative.</strong> Short research report (three or four paragraphs, two or three sources, in-text citations, works cited) plus a three-minute multimodal presentation (slides, infographic, or short video with clearly identifiable features of two modes). Semester benchmark in week 18: the district benchmark if scheduled, otherwise a Milestones-format mixed assessment with an extended expository task.</li>
-<li><strong>Formative checkpoints that mirror the summative.</strong> Credibility sort with written justification (week 15). Research paragraph with citation (week 16). Presentation rehearsal with a two-question feedback protocol (week 17).</li>
-<li><strong>Independent rehearsals.</strong> The week 16 research paragraph and the week 18 benchmark.</li>
-<li><strong>Rubric shown.</strong> Report and presentation rubric with a model report in week 15.</li>
-</ul>
-<h3 id="topic-choice">Topic choice</h3>
-<p>A question that grows from Unit 2 or Unit 3 ("How accurate is the setting of the story we read?" or a follow-up to the field guide), or a local history question: Sapelo Island and Hog Hammock, Fort King George, Darien's timber era, the Altamaha. Local questions are real, students have stake in them, and sources exist.</p>
-<h3 id="stage-3-weekly-arc_3">Stage 3: weekly arc</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Week</th>
-<th>Focus</th>
-<th>Writing produced</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>15</td>
-<td>Questions and source hunt; credibility and relevance; source speed-dating protocol</td>
-<td>Research questions; credibility sort with justification</td>
-</tr>
-<tr>
-<td>16</td>
-<td>Notes, paraphrase, plagiarism; MLA in-text citation and works cited</td>
-<td>Research paragraph with citation</td>
-</tr>
-<tr>
-<td>17</td>
-<td>Draft the report; build the presentation (two days, not two weeks); rehearsal</td>
-<td>Report draft; presentation</td>
-</tr>
-<tr>
-<td>18</td>
-<td>Present; semester benchmark; portfolio reflection</td>
-<td>Final report; benchmark</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Discussion protocols.</strong> Source speed-dating (partners trade sources and vet them). Two-question presentation feedback.</p>
-<p><strong>Relevancy.</strong> Everyone researches. Most do it badly, from the first search result. Credibility is a life skill and the students know it.</p>
-<p class="watch"><strong>Watch-outs.</strong> Keep the product short. Four weeks with a benchmark week is tight. Do not let this become a three-week slideshow unit; the writing standards are the point, and the slides get two days. Pick one citation format (MLA) and use it all year, including in Units 5 and 6.</p>
-<hr />
-<h2 id="10-unit-5-argumentative-writing-from-sources">10. Unit 5. Argumentative Writing from Sources</h2>
-<p class="meta"><strong>Weeks 19 to 25 | 35 days | Quarter 3</strong></p>
-<p><strong>Unit questions.</strong> What makes an argument worth believing? How do I answer the other side without losing my own?</p>
-<p><strong>Enduring understanding.</strong> An argument advances a claim with reasons and relevant evidence, acknowledges a counterclaim and answers it, and ends with a conclusion that follows logically. Perspective, tone, and evidence decide whether a reader trusts the writer.</p>
-<h3 id="standards_4">Standards</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Role</th>
-<th>Standard</th>
-<th>In plain terms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.3.c</code></td>
-<td>Apply argumentative techniques: claim, relevant evidence, counterclaim, logical conclusion</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.3.a</code></td>
-<td>Analyze argumentative techniques in texts</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.C.2.a</code>, <code>7.T.C.2.b</code></td>
-<td>Determine the prevailing perspective; analyze how evidence and tone reveal perspective and affect credibility</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.SS.1.c</code>, <code>7.T.SS.1.d</code></td>
-<td>Transitions across paragraphs; multi-paragraph structure</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.L.GC.2.b</code>, <code>7.L.GC.2.c</code></td>
-<td>Sentence variety with consistent tense; active voice</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.RA.2.c</code></td>
-<td>Cite integrated evidence in a standard format</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.T.C.2.c</code></td>
-<td>Context and its effect on a text</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.T.SS.2.c</code></td>
-<td>Formal style</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.L.V.3.c</code>, <code>7.L.V.3.e</code></td>
-<td>Connotation; loaded language</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>K-12.P.ST.2</code></td>
-<td>Author, audience, and purpose</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Language strand.</strong> Correlative conjunctions (R) for framing claim and counterclaim: "not only ... but also," "either ... or," "whether ... or." Subordinating conjunctions with introductory commas (R) for concession: "Although the article claims ..., ...". Semicolons with conjunctive adverbs (C): "however," "therefore," "consequently." Indefinite pronoun agreement (R): the "everyone ... their" trap. Active voice (<code>7.L.GC.2.c</code>) as a revision move. Nonessential elements (M) for attribution: "The author, a pediatrician who has studied screen time, argues ...". Roots: <code>fid</code>, <code>jud/jur</code>, <code>contra</code>, <code>ver</code>.</p>
-<p><strong>Learning targets.</strong> Claim. Reasons and relevant evidence. Counterclaim and rebuttal. Logical conclusion. Author's perspective, tone, and credibility. Argumentative structure.</p>
-<h3 id="success-criteria-ladder_4">Success criteria ladder</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Surface (DOK 1 to 2)</th>
-<th>Deep (DOK 3)</th>
-<th>Transfer (DOK 3 to 4)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identify the claim, a piece of evidence, and the counterclaim in an argument. Identify a text's prevailing perspective. Classify sentences as active or passive.</td>
-<td>Explain how evidence and tone reveal an author's perspective and affect credibility, with evidence. Given a claim, write a counterclaim paragraph with a rebuttal. Given a reason, add relevant evidence and elaborate on it. Write a conclusion that follows logically from a provided argument. Revise passive sentences to active.</td>
-<td>Write a multi-paragraph argument from two sources with a claim, reasons, cited evidence with elaboration, an addressed counterclaim, and a conclusion that follows. Analyze two authors' perspectives on the same issue and judge which is more credible.</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="stage-2-evidence_4">Stage 2: evidence</h3>
-<ul>
-<li><strong>Summative.</strong> Milestones-format extended argumentative essay from paired sources, 90 minutes, on demand in week 25, scored on the 3-trait rubric. Plus a process argument for a real audience (letter to the principal, school board, or county commission, or an op-ed) taken through revision. Plus a perspective and credibility constructed response on two authors (<code>7.T.C.2.b</code>).</li>
-<li><strong>Formative checkpoints that mirror the summative.</strong> Section-level tasks weekly: claim and reasons only; counterclaim paragraph only; conclusion only; evidence and elaboration for a given reason. Timed essays in weeks 21 and 23, each scored on the rubric and conferenced.</li>
-<li><strong>Independent rehearsals.</strong> The week 21 and week 23 timed essays.</li>
-<li><strong>Rubric shown.</strong> Argument exemplar and weak sample scored in week 19; anonymized student essays from prior years for calibration in week 23.</li>
-</ul>
-<h3 id="mentor-and-source-texts_2">Mentor and source texts</h3>
-<p>Argumentative pairs from CommonLit, Newsela, and GaDOE released Milestones passages. Speeches: Malala Yousafzai's UN address, Severn Cullis-Suzuki's Rio address. For <code>7.T.C.2.b</code>, an op-ed and a news report on the same issue. Issues students have a stake in: phone policies, dress code, start times, year-round school, a county issue.</p>
-<h3 id="stage-3-weekly-arc_4">Stage 3: weekly arc</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Week</th>
-<th>Focus</th>
-<th>Writing produced</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>19</td>
-<td>Anatomy of an argument: claim, reasons, evidence; map two arguments; rubric and exemplar</td>
-<td>Argument map CR; claim-and-reasons task</td>
-</tr>
-<tr>
-<td>20</td>
-<td>Evidence selection and elaboration (introduce, cite, explain); citing sources; Philosophical Chairs</td>
-<td>Body paragraph with cited, elaborated evidence</td>
-</tr>
-<tr>
-<td>21</td>
-<td>Counterclaim and rebuttal; concession syntax; correlative and subordinating conjunctions; first timed essay</td>
-<td>Counterclaim paragraph; timed essay 1</td>
-</tr>
-<tr>
-<td>22</td>
-<td>Perspective, tone, and credibility (<code>7.T.C.2</code>); loaded language; Structured Academic Controversy</td>
-<td>Perspective and credibility CR</td>
-</tr>
-<tr>
-<td>23</td>
-<td>Introductions and conclusions for arguments; second timed essay scored and conferenced; calibration with student samples</td>
-<td>Timed essay 2</td>
-</tr>
-<tr>
-<td>24</td>
-<td>Real-audience process argument; revision for active voice and sentence variety; peer review with the rubric</td>
-<td>Letter or op-ed, revised</td>
-</tr>
-<tr>
-<td>25</td>
-<td>Summative on-demand essay; portfolio reflection</td>
-<td>Summative essay; reflection</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Discussion protocols.</strong> Structured Academic Controversy. Philosophical Chairs. Four Corners. Rubric-based peer review.</p>
-<p><strong>Relevancy.</strong> Arguments decide the things students argue about anyway. The real-audience piece goes to a real audience.</p>
-<p class="watch"><strong>Watch-outs.</strong> Counterclaim is where 7th graders collapse. They state it and never answer it, or they answer by insulting it. Teach the concession sentence explicitly and require the rebuttal. Trait 2 rewards elaboration, not evidence volume; push "so what" after every citation. Score at least two timed essays with the actual Milestones rubric before the summative, and give the trait scores back to students.</p>
-<hr />
-<h2 id="11-unit-6-literary-analysis-and-poetry-theme-time-and-craft">11. Unit 6. Literary Analysis and Poetry: Theme, Time, and Craft</h2>
-<p class="meta"><strong>Weeks 26 to 30 | 25 days | Quarters 3 and 4</strong></p>
-<p><strong>Unit questions.</strong> How do writers from a particular time and place craft meaning, and how do I write about it? What can a poem do that prose cannot?</p>
-<p><strong>Enduring understanding.</strong> Literature carries the marks of its period. Theme is built through characters, events, and structure, and comparing texts sharpens what each one means. Poets use sound, image, and structure for effect, and so can students.</p>
-<h3 id="standards_5">Standards</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Role</th>
-<th>Standard</th>
-<th>In plain terms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.4.a</code>, <code>7.T.T.4.b</code></td>
-<td>Analyze poetic techniques; apply them to produce poetry</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.1.c</code></td>
-<td>Compare and contrast theme development across texts</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.1.d</code></td>
-<td>Compare a fictional portrayal with a historical account of the same period</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.PM.1.b</code></td>
-<td>Analyze one genre of literature from a time period; features of style and theme</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.SS.2.a</code>, <code>7.T.SS.2.b</code></td>
-<td>Explain how figurative and connotative language contribute to meaning, mood, tone; use them for effect</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.C.2.c</code></td>
-<td>Impact of era, place, and events on text development</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.2.d</code></td>
-<td>Expository techniques applied to analytical writing</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.L.V.3.b</code>, <code>7.L.V.3.c</code></td>
-<td>Word relationships; connotation</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>K-12.P.AC.1</code>, <code>K-12.P.CP.2.e</code></td>
-<td>Reading like a writer; reciting poems</td>
-</tr>
-<tr>
-<td>Supporting</td>
-<td><code>7.T.SS.1.d</code></td>
-<td>Multi-paragraph structure</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Language strand.</strong> Verbals by function (I): gerunds and infinitives alongside participles, because poems and analytical sentences are full of them. Progressive, perfect, and perfect progressive aspects (R) in the literary present. Intensive pronouns (R). Punctuation with textual evidence and citations (C). Titles of works (R): poem titles in quotation marks, book titles in italics. Roots: <code>phon</code>, <code>son</code>, <code>lum/luc</code>, <code>tempor</code>.</p>
-<p><strong>Learning targets.</strong> Theme development. Poetic techniques: stanza, rhyme scheme, imagery, figurative language, sound devices. Literary period. Historical context and fiction. Literary analysis structure. Textual evidence and citation.</p>
-<h3 id="success-criteria-ladder_5">Success criteria ladder</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Surface (DOK 1 to 2)</th>
-<th>Deep (DOK 3)</th>
-<th>Transfer (DOK 3 to 4)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identify poetic techniques in a poem. Identify a theme. Identify a historical detail in fiction that matches an account. Identify key features of a period's style.</td>
-<td>Explain how a technique contributes to meaning, mood, or tone, with evidence. Describe how a theme is developed through events. Compare a fictional portrayal with a historical account. Apply a poetic technique in an original poem for a stated effect.</td>
-<td>Write a literary analysis essay comparing how two texts develop a theme, with cited evidence and explanation. Produce a poem using multiple techniques for effect, with a writer's note explaining the choices. Analyze how a period's context shapes a text.</td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="stage-2-evidence_5">Stage 2: evidence</h3>
-<ul>
-<li><strong>Summative.</strong> (1) Literary analysis essay comparing theme development across two texts (a poem and a story, or a novel and a historical account), timed, scored on the 3-trait rubric adapted for analysis (controlling idea in place of claim). (2) Poetry portfolio: three poems using multiple techniques plus a writer's note, and a recitation (<code>K-12.P.CP.2.e</code>).</li>
-<li><strong>Formative checkpoints that mirror the summative.</strong> Technique-and-effect CRs weekly. Theme comparison paragraph (week 28). Fiction-versus-history CR (week 28). Poem drafts with a technique checklist. Timed analysis rehearsal (week 29).</li>
-<li><strong>Independent rehearsals.</strong> The week 29 timed rehearsal and the week 30 summative.</li>
-<li><strong>Rubric shown.</strong> Analysis exemplar in week 26; poetry rubric with a model poem and writer's note in week 26.</li>
-</ul>
-<h3 id="texts">Texts</h3>
-<p>Period option A: Harlem Renaissance poetry as the genre from a time period (<code>7.T.PM.1.b</code>): Langston Hughes ("Harlem," "Mother to Son," "I, Too"), Countee Cullen, James Weldon Johnson, paired with a short historical account of the Great Migration, which began in Georgia and ties to <code>7.T.C.2.c</code>. Period option B: a historical novel with a historical pairing for <code>7.T.T.1.d</code>: "A Long Walk to Water" with news accounts of the Lost Boys of Sudan, or excerpts from "Roll of Thunder, Hear My Cry" with an account of 1930s Mississippi. Additional poems for technique: Frost, Dickinson, Angelou's "Still I Rise," Naomi Shihab Nye, Poe's "Annabel Lee."</p>
-<h3 id="stage-3-weekly-arc_5">Stage 3: weekly arc</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Week</th>
-<th>Focus</th>
-<th>Writing produced</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>26</td>
-<td>Poetic techniques through reading; sound and image; imitation poems; rubrics and exemplars</td>
-<td>Technique-and-effect CR; imitation poem</td>
-</tr>
-<tr>
-<td>27</td>
-<td>Period study: context, features of style and theme (<code>7.T.PM.1.b</code>, <code>7.T.C.2.c</code>); Socratic seminar</td>
-<td>Period features CR; poem 2</td>
-</tr>
-<tr>
-<td>28</td>
-<td>Fiction and historical account; theme development across texts</td>
-<td>Fiction-versus-history CR; theme comparison paragraph</td>
-</tr>
-<tr>
-<td>29</td>
-<td>Writing about literature: literary present, embedded evidence, citation; timed analysis rehearsal; conference</td>
-<td>Timed rehearsal; revision</td>
-</tr>
-<tr>
-<td>30</td>
-<td>Poetry portfolio finishing and recitation; summative analysis essay; portfolio reflection</td>
-<td>Summative essay; portfolio</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Discussion protocols.</strong> Socratic seminar on the poems. Poetry read-around. Save the Last Word. Analysis peer review.</p>
-<p><strong>Relevancy.</strong> Music is poetry and students already analyze lyrics. The period study is Georgia history.</p>
-<p class="watch"><strong>Watch-outs.</strong> Poetry writing can eat the unit. Hold it to about forty percent of the days. The analysis essay is expository technique applied to literature, which is Milestones-relevant, and it gets the time. Fiction versus historical account (<code>7.T.T.1.d</code>) is a listed grade 7 expectation that is easy to skip. It is here on purpose.</p>
-<hr />
-<h2 id="12-unit-7-milestones-writing-intensive">12. Unit 7. Milestones Writing Intensive</h2>
-<p class="meta"><strong>Weeks 31 to 33 | 15 days | Quarter 4</strong></p>
-<p><strong>Unit question.</strong> How do I show what I can do as a writer under test conditions?</p>
-<p><strong>Enduring understanding.</strong> The EOG samples the year. Writers who can name the trait can fix the draft.</p>
-<h3 id="standards_6">Standards</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Role</th>
-<th>Standard</th>
-<th>In plain terms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.2.d</code>, <code>7.T.T.3.c</code></td>
-<td>Expository and argumentative techniques on demand</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.SS.1.b</code>, <code>7.T.SS.1.c</code>, <code>7.T.SS.1.d</code></td>
-<td>Structure, transitions, complete texts and sections of texts</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.L.GC.1</code> (tested R and M items), <code>7.L.GC.2.b</code>, <code>7.L.GC.2.c</code>, <code>7.L.GC.2.d</code></td>
-<td>Conventions, sentence variety, active voice, modifiers in revision items</td>
-</tr>
-<tr>
-<td>Priority</td>
-<td><code>7.T.T.1.e</code></td>
-<td>Narrative constructed response</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>No new content.</strong> Every day includes real writing scored against the rubric with feedback that names the trait.</p>
-<h3 id="stage-3-daily-arc">Stage 3: daily arc</h3>
-<div class="table-wrap"><table class="">
-<thead>
-<tr>
-<th>Days</th>
-<th>Focus</th>
-<th>Writing produced</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1 to 3</td>
-<td>Expository cycle: section-level tasks (introduction, transitions, conclusion), then a full timed essay</td>
-<td>Timed expository essay</td>
-</tr>
-<tr>
-<td>4 to 6</td>
-<td>Argumentative cycle: counterclaim and elaboration tasks, then a full timed essay</td>
-<td>Timed argumentative essay</td>
-</tr>
-<tr>
-<td>7 to 8</td>
-<td>Narrative constructed response from a passage; dialogue and description for purpose</td>
-<td>Timed narrative CR</td>
-</tr>
-<tr>
-<td>9 to 10</td>
-<td>Revision and editing in Milestones item formats: best transition, fix the modifier, punctuate the appositive, active voice, tense consistency, sentence combining</td>
-<td>Item sets</td>
-</tr>
-<tr>
-<td>11 to 12</td>
-<td>Full mock EOG, including the extended writing task, scored by trait</td>
-<td>Mock EOG</td>
-</tr>
-<tr>
-<td>13 to 15</td>
-<td>Trait-based small groups from mock scores; pacing plan (plan 5, draft 40, revise 10)</td>
-<td>Targeted revision</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Assessment.</strong> The mock EOG in days 11 and 12. An AI-scored writing simulation with trait feedback, if one is built for grade 7, gets every student a trait score overnight.</p>
-<p class="watch"><strong>Watch-outs.</strong> Do not run three weeks of packets. Do not skip narrative because it is not the extended task; the ALDs test it as a constructed response. Students who score 1 on Trait 2 need elaboration practice, not more grammar.</p>
-<hr />
-<h2 id="13-weeks-34-to-36-eog-window-and-capstone">13. Weeks 34 to 36. EOG window and Capstone</h2>
-<p><strong>Weeks 34 and 35: EOG testing.</strong> Light writing on non-testing days: notebook, independent reading, portfolio curation.</p>
-<p><strong>Week 36 and remaining days: Capstone.</strong> A multimodal text on a topic of the student's choice in any genre studied this year (podcast segment, photo essay, zine, PSA, short documentary script), for <code>7.T.C.1.c</code>, <code>K-12.P.AC.3.d</code>, and <code>K-12.P.CP.2</code>. A portfolio reflection letter that revisits the August goals against the baseline and the mock scores (<code>K-12.P.EICC.1.a</code>, <code>K-12.P.EICC.1.b</code>). Grade 8 bridge in sentence-of-the-day: colons to introduce quotations, dashes, tenses and aspects for verb mood, and using a style guide, which are the grade 8 Introduce items.</p>
-<hr />
-<h2 id="14-standards-coverage-matrix">14. Standards coverage matrix</h2>
-<p>P is a priority standard in that unit's Stage 1. S is supporting, carried by routines. Every grade 7 expectation in the standards document appears at least once.</p>
+</template><template id="panel-ref-14" data-title="Standards coverage matrix" data-chip="Reference" data-kind="ref"><p>P is a priority standard in that unit's Stage 1. S is supporting, carried by routines. Every grade 7 expectation in the standards document appears at least once.</p>
 <h3 id="language-domain">Language domain</h3>
 <div class="table-wrap"><table class="matrix">
 <thead>
@@ -1948,9 +1951,7 @@ table.matrix td:first-child{font-weight:450}
 </tr>
 </tbody>
 </table></div>
-<hr />
-<h2 id="15-grade-7-gum-placement">15. Grade 7 GUM placement</h2>
-<p>Every grade 7 skill on the GUM chart with its code and where it is taught. Reinforce and Master items are the tested set.</p>
+</template><template id="panel-ref-15" data-title="Grade 7 GUM placement" data-chip="Reference" data-kind="ref"><p>Every grade 7 skill on the GUM chart with its code and where it is taught. Reinforce and Master items are the tested set.</p>
 <div class="table-wrap"><table class="">
 <thead>
 <tr>
@@ -2084,9 +2085,7 @@ table.matrix td:first-child{font-weight:450}
 </tbody>
 </table></div>
 <p>Grade 8 Introduce items previewed in the Capstone weeks: colons to introduce quotations, dashes, tenses and aspects for verb mood, using a style guide.</p>
-<hr />
-<h2 id="16-unit-plan-checklist-the-three-lenses">16. Unit plan checklist: the three lenses</h2>
-<p>What each unit plan built from this map needs to contain. This is the district's frame (backward design, reading and writing across the curriculum, rigor), applied to a writing classroom.</p>
+</template><template id="panel-ref-16" data-title="Unit plan checklist: the three lenses" data-chip="Reference" data-kind="ref"><p>What each unit plan built from this map needs to contain. This is the district's frame (backward design, reading and writing across the curriculum, rigor), applied to a writing classroom.</p>
 <p><strong>Backward design</strong></p>
 <ul>
 <li>Stage 1 lists the unit's priority standards from this map and nothing else. Supporting standards live in the routines.</li>
@@ -2119,16 +2118,61 @@ table.matrix td:first-child{font-weight:450}
 <li>Relevancy is stated per standard and names this unit's content.</li>
 <li>If the section is co-taught or carries an SWD roster, SDI is tied to the day's task.</li>
 </ul>
-<hr />
-<h2 id="17-direct-notes-for-the-teacher">17. Direct notes for the teacher</h2>
-<ul>
+</template><template id="panel-ref-17" data-title="Direct notes for the teacher" data-chip="Reference" data-kind="ref"><ul>
 <li><strong>Argument and expository come before the test, and they get the most days.</strong> That is the extended writing task. Narrative gets six weeks and no more.</li>
 <li><strong>Section-level tasks are not a warm-up.</strong> They are how Proficient is described in the ALDs. Put them on assessments.</li>
 <li><strong>Four timed Milestones-format essays before the mock.</strong> Weeks 2, 14, 18, and 25. Score every one with the 3-trait rubric and give the trait scores back.</li>
 <li><strong>Conventions instruction goes to the tested set.</strong> Thirteen skills, listed in section 3.4. Sentence of the day carries them. Grammar packets do not.</li>
 <li><strong>Trait 2 is elaboration.</strong> If the class trait pattern on the baseline is low Trait 2, every unit from 3 forward leans on introduce, cite, explain.</li>
 <li><strong>One rubric language all year.</strong> Purpose and Organization. Evidence and Elaboration. Language Usage and Conventions. By April it is not new.</li>
-</ul>
-<p class="foot">Sources: Georgia's K-12 ELA Standards, 7th Grade (approved May 2023) and the Georgia Milestones Grade 7 ELA Achievement Level Descriptors (draft, October 2025, effective 2025-2026). Source of truth for this page is 7th_Grade_ELA_Curriculum_Map.md in the curriculum repository.</p>
-</main>
-</div>
+</ul></template>
+<script>
+(function(){
+  var order = ["unit-1", "unit-2", "unit-3", "unit-4", "unit-5", "unit-6", "unit-7", "unit-eog"], titles = {"unit-1": "Unit 1. Launch: A Community of Writers and Readers", "unit-2": "Unit 2. Narrative Craft: Myths, Retellings, and the Tools of Story", "unit-3": "Unit 3. Expository Writing from Sources", "unit-4": "Unit 4. Research, Credibility, and Multimodal Presentation", "unit-5": "Unit 5. Argumentative Writing from Sources", "unit-6": "Unit 6. Literary Analysis and Poetry: Theme, Time, and Craft", "unit-7": "Unit 7. Milestones Writing Intensive", "unit-eog": "Weeks 34 to 36. EOG window and Capstone"};
+  var drawer = document.getElementById('drawer'), scrim = document.getElementById('scrim');
+  var body = document.getElementById('drawer-body'), head = document.getElementById('drawer-title');
+  var chip = document.getElementById('drawer-chip'), prev = document.getElementById('prev'), next = document.getElementById('next');
+  var current = null, lastFocus = null;
+  function open(id, push){
+    var t = document.getElementById('panel-' + id); if(!t) return;
+    current = id;
+    body.innerHTML = ''; body.appendChild(t.content.cloneNode(true)); body.scrollTop = 0;
+    head.textContent = t.dataset.title; chip.textContent = t.dataset.chip;
+    if(t.dataset.hue){ drawer.style.setProperty('--tile','hsl(' + t.dataset.hue + ' var(--tile-sat) var(--tile-l))'); drawer.style.setProperty('--soft','hsl(' + t.dataset.hue + ' var(--soft-sat) var(--soft-l))'); }
+    else { drawer.style.removeProperty('--tile'); drawer.style.removeProperty('--soft'); }
+    var i = order.indexOf(id);
+    prev.disabled = i <= 0; next.disabled = i < 0 || i >= order.length - 1;
+    prev.textContent = i > 0 ? '← ' + titles[order[i-1]] : '←';
+    next.textContent = (i >= 0 && i < order.length - 1) ? titles[order[i+1]] + ' →' : '→';
+    drawer.classList.add('on'); scrim.classList.add('on'); document.body.classList.add('locked');
+    drawer.setAttribute('aria-hidden','false');
+    if(push !== false){ try{ history.pushState({id:id}, '', '#' + id); }catch(e){} }
+    document.getElementById('close').focus();
+  }
+  function close(push){
+    drawer.classList.remove('on'); scrim.classList.remove('on'); document.body.classList.remove('locked');
+    drawer.setAttribute('aria-hidden','true'); current = null;
+    if(push !== false){ try{ history.pushState({}, '', location.pathname + location.search); }catch(e){} }
+    if(lastFocus){ lastFocus.focus(); lastFocus = null; }
+  }
+  document.querySelectorAll('[data-open]').forEach(function(b){
+    b.addEventListener('click', function(){ lastFocus = b; open(b.dataset.open); });
+  });
+  document.getElementById('close').addEventListener('click', function(){ close(); });
+  scrim.addEventListener('click', function(){ close(); });
+  prev.addEventListener('click', function(){ var i = order.indexOf(current); if(i > 0) open(order[i-1]); });
+  next.addEventListener('click', function(){ var i = order.indexOf(current); if(i >= 0 && i < order.length-1) open(order[i+1]); });
+  document.addEventListener('keydown', function(e){
+    if(!current) return;
+    if(e.key === 'Escape') close();
+    if(e.key === 'ArrowRight' && !next.disabled && e.target === document.body) next.click();
+    if(e.key === 'ArrowLeft' && !prev.disabled && e.target === document.body) prev.click();
+  });
+  window.addEventListener('popstate', function(e){
+    var id = (e.state && e.state.id) || (location.hash ? location.hash.slice(1) : null);
+    if(id && document.getElementById('panel-' + id)) open(id, false); else if(current) close(false);
+  });
+  var h = location.hash ? location.hash.slice(1) : null;
+  if(h && document.getElementById('panel-' + h)){ var b = document.getElementById('tile-' + h); lastFocus = b; open(h, false); }
+})();
+</script>
